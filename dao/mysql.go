@@ -1,7 +1,6 @@
 package dao
 
 import (
-	"fmt"
 	"gorbac/app/models"
 	account "gorbac/app/models/Account"
 	"gorm.io/gorm"
@@ -10,10 +9,8 @@ import (
 
 // SetupDB 初始化数据库和 ORM
 func SetupDB() {
-	fmt.Println(123)
 	// 建立数据库连接池
 	db := models.ConnectDB()
-	fmt.Println(456)
 
 	// 命令行打印数据库请求的信息
 	sqlDB, _ := db.DB()
