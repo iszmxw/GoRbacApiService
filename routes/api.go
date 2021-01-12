@@ -14,16 +14,16 @@ func RegisterWebRoutes() {
 	v1 := router.Group("/v1")
 	{
 		// 后台 模块
-		PrefixAdmin := v1.Group("/admin")
+		Admin := v1.Group("/admin")
 		{
-			LoginController := new(admin.LoginController)
 			// 登录系统
-			PrefixAdmin.POST("/login", LoginController.Login)
+			Admin.POST("/login", admin.LoginHandler)
 			// 退出系统
-			PrefixAdmin.POST("/logout", LoginController.Logout)
-			AdminMiddleware := new(middlewares.Admin)
+			Admin.POST("/logout", admin.LogoutHandler)
+			// 调用中间件
+			Admin.Use(middlewares.Admin)
 			// 获取用户信息
-			PrefixAdmin.Use(AdminMiddleware.Admin).POST("/userinfo", LoginController.UserInfo)
+			Admin.POST("/userinfo", admin.UserInfoHandler)
 		}
 	}
 
