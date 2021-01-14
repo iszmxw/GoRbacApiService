@@ -2,11 +2,34 @@ package admin
 
 import (
 	"github.com/gin-gonic/gin"
+	"gorbac/app/models/account"
+	"gorbac/app/validate/admin"
+	"gorbac/utils"
 )
 
 // 登录
 func LoginHandler(c *gin.Context) {
-	c.JSON(200, gin.H{"message": "登录系统"})
+
+	// 初始化数据模型结构体
+	dataAccount := account.Account{}
+	// 绑定接收的 json 数据到结构体重
+	_ = c.ShouldBindJSON(&dataAccount)
+	// 验证结构体数据
+	_account := account.Account{
+		Username: dataAccount.Username,
+		Password: dataAccount.Password,
+	}
+	// 验证器验证
+	errs := admin.ValidateAccount(_account)
+	// 遍历返回错误
+	if len(errs) > 0 {
+		for index, item := range errs {
+			utils.SuccessErr(c, 500, index+" "+item[0])
+			return
+		}
+	}
+	// 返回数据
+	utils.SuccessData(c, "用户名为："+dataAccount.Username+"，输入的密码为："+dataAccount.Password)
 }
 
 // 退出

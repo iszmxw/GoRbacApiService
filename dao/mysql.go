@@ -2,7 +2,7 @@ package dao
 
 import (
 	"gorbac/app/models"
-	account "gorbac/app/models/Account"
+	account "gorbac/app/models/account"
 	"gorm.io/gorm"
 	"time"
 )
