@@ -2,6 +2,7 @@ package config
 
 import "gorbac/pkg/config"
 
+// session 参数
 func init() {
 	config.Add("session", config.StrMap{
 		// 目前只支持 Cookie

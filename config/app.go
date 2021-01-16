@@ -2,6 +2,7 @@ package config
 
 import "gorbac/pkg/config"
 
+// app 参数
 func init() {
 	config.Add("app", config.StrMap{
 

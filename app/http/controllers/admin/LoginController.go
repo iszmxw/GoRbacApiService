@@ -4,6 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"gorbac/app/models"
 	"gorbac/app/validate/admin"
+	"gorbac/pkg/jwt"
 	"gorbac/pkg/utils"
 )
 
@@ -29,9 +30,16 @@ func LoginHandler(c *gin.Context) {
 		return
 	}
 	//登录成功，返回token
-
+	t, err := jwt.GetToken(res)
+	if err != nil {
+		utils.SuccessErr(c, 500, err)
+		return
+	}
 	//返回数据
-	utils.SuccessData(c, "用户名为："+params.Username+"，输入的密码为："+params.Password)
+	utils.SuccessData(c, gin.H{
+		"tips":  "用户名为：" + params.Username + "，输入的密码为：" + params.Password,
+		"token": t,
+	})
 }
 
 // 退出
@@ -41,5 +49,13 @@ func LogoutHandler(c *gin.Context) {
 
 // 获取用户信息
 func UserInfoHandler(c *gin.Context) {
-	c.JSON(200, gin.H{"message": "获取用户信息"})
+	auth, _ := c.Get("auth")
+	auth_id, _ := c.Get("auth_id")
+	c.JSON(200, gin.H{
+		"message": "登录成功",
+		"data": gin.H{
+			"auth_id": auth_id,
+			"info":    auth,
+		},
+	})
 }
