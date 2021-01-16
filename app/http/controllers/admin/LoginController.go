@@ -50,12 +50,10 @@ func LogoutHandler(c *gin.Context) {
 // 获取用户信息
 func UserInfoHandler(c *gin.Context) {
 	auth, _ := c.Get("auth")
-	auth_id, _ := c.Get("auth_id")
 	c.JSON(200, gin.H{
 		"message": "登录成功",
 		"data": gin.H{
-			"auth_id": auth_id,
-			"info":    auth,
+			"info": auth,
 		},
 	})
 }
