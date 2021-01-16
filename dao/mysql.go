@@ -2,7 +2,7 @@ package dao
 
 import (
 	"gorbac/app/models"
-	account "gorbac/app/models/account"
+	"gorbac/app/models/account"
 	"gorm.io/gorm"
 	"time"
 )
@@ -28,6 +28,6 @@ func SetupDB() {
 func migration(db *gorm.DB) {
 	// 自动迁移
 	db.AutoMigrate(
-		&account.Account{},
+		&account.Model{},
 	)
 }

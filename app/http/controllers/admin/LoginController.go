@@ -9,18 +9,12 @@ import (
 
 // 登录
 func LoginHandler(c *gin.Context) {
-
 	// 初始化数据模型结构体
-	dataAccount := account.Account{}
+	dataAccount := account.Model{}
 	// 绑定接收的 json 数据到结构体重
 	_ = c.ShouldBindJSON(&dataAccount)
-	// 验证结构体数据
-	_account := account.Account{
-		Username: dataAccount.Username,
-		Password: dataAccount.Password,
-	}
 	// 验证器验证
-	errs := admin.ValidateAccount(_account)
+	errs := admin.ValidateAccount(dataAccount)
 	// 遍历返回错误
 	if len(errs) > 0 {
 		for index, item := range errs {

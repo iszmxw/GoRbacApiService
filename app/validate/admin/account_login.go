@@ -6,7 +6,7 @@ import (
 )
 
 // ValidateAccount 验证表单，返回 errs 长度等于零即通过
-func ValidateAccount(data account.Account) map[string][]string {
+func ValidateAccount(data account.Model) map[string][]string {
 	// 1. 定制认证规则
 	rules := govalidator.MapData{
 		"username": []string{"required", "between:5,20"},
