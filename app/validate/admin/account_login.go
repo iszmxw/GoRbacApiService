@@ -2,11 +2,12 @@ package admin
 
 import (
 	"github.com/thedevsaddam/govalidator"
-	"gorbac/app/models/account"
+	"gorbac/app/models"
 )
 
-// ValidateAccount 验证表单，返回 errs 长度等于零即通过
-func ValidateAccount(data account.Model) map[string][]string {
+// ValidateAccount 验证表单，开始验证，并返回一条错误消息
+func ValidateAccount(account models.Account) string {
+	var msg string
 	// 1. 定制认证规则
 	rules := govalidator.MapData{
 		"username": []string{"required", "between:5,20"},
@@ -27,13 +28,25 @@ func ValidateAccount(data account.Model) map[string][]string {
 
 	// 3. 配置初始化
 	opts := govalidator.Options{
-		Data:          &data,
+		Data:          &account,
 		Rules:         rules,
-		TagIdentifier: "valid", // 模型中的 Struct 标签标识符
 		Messages:      messages,
+		TagIdentifier: "validate", // 模型中的 Struct 标签标识符
 	}
 
 	// 4. 开始验证
-	errs := govalidator.New(opts).ValidateStruct()
-	return errs
+	errors := govalidator.New(opts).ValidateStruct()
+
+	for key, val := range errors {
+		if len(key) > 0 {
+			msg += key
+			for _, item := range val {
+				if len(item) > 0 {
+					msg += " " + item
+					return msg
+				}
+			}
+		}
+	}
+	return msg
 }

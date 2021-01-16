@@ -1,44 +1,21 @@
 package models
 
 import (
-	"fmt"
-	"gorm.io/driver/mysql"
+	"gorbac/utils/types"
 	"gorm.io/gorm"
-	gormlogger "gorm.io/gorm/logger"
-	"log"
+	"time"
 )
 
-// DB gorm.DB 对象
-var DB *gorm.DB
+// BaseModel 模型基类
+type BaseModel struct {
+	Id        uint64    `gorm:"column:id;primaryKey;autoIncrement;not null" json:"id"`
+	CreatedAt time.Time `gorm:"column:created_at;index" json:"created_at"`
+	UpdatedAt time.Time `gorm:"column:updated_at" json:"updated_at"`
+	// 支持 gorm 软删除
+	DeletedAt gorm.DeletedAt `gorm:"column:deleted_at;index"`
+}
 
-// ConnectDB 初始化模型
-func ConnectDB() *gorm.DB {
-	var err error
-
-	// 初始化 MySQL 连接信息
-	var (
-		host     = "192.168.26.139"
-		port     = "3306"
-		database = "gorbac"
-		username = "root"
-		password = "root"
-		charset  = "utf8mb4"
-	)
-	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=%s&parseTime=%t&loc=%s", username, password, host, port, database, charset, true, "Local")
-
-	gormConfig := mysql.New(mysql.Config{
-		DSN: dsn,
-	})
-
-	var level gormlogger.LogLevel
-	// 读取不到数据也会显示
-	level = gormlogger.Warn
-	// 准备数据库连接池
-	DB, err = gorm.Open(gormConfig, &gorm.Config{
-		Logger: gormlogger.Default.LogMode(level),
-	})
-	if err != nil {
-		log.Fatal(err)
-	}
-	return DB
+// GetStringID 获取 ID 的字符串格式
+func (a BaseModel) GetStringID() string {
+	return types.Uint64ToString(a.Id)
 }
