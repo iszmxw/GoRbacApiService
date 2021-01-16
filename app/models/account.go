@@ -1,5 +1,7 @@
 package models
 
+import "gorbac/pkg/mysql"
+
 // 设置表名
 func (Account) TableName() string {
 	return "account"
@@ -18,7 +20,7 @@ type Account struct {
 
 // Create 创建账户，通过 User.ID 来判断是否创建成功
 func Create(a Account) (err error) {
-	if err = DB.Create(&a).Error; err != nil {
+	if err = mysql.DB.Create(&a).Error; err != nil {
 		return err
 	}
 	return nil
@@ -26,6 +28,6 @@ func Create(a Account) (err error) {
 
 // GetOne 获取一条数据
 func GetOne(where map[string]interface{}, account Account) Account {
-	DB.Where(where).First(&account)
+	mysql.DB.Where(where).First(&account)
 	return account
 }

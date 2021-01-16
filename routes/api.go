@@ -7,9 +7,7 @@ import (
 )
 
 // 注册路由
-func RegisterWebRoutes() {
-	// 初始化路由
-	router := gin.Default()
+func RegisterWebRoutes(router *gin.Engine) {
 	// 路由分组
 	v1 := router.Group("/v1")
 	{
@@ -26,8 +24,4 @@ func RegisterWebRoutes() {
 			Admin.POST("/userinfo", admin.UserInfoHandler)
 		}
 	}
-
-	// 启动路由
-	router.Run(":80")
-
 }

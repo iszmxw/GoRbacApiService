@@ -1,7 +1,7 @@
 package models
 
 import (
-	"gorbac/utils/types"
+	"gorbac/pkg/utils/types"
 	"gorm.io/gorm"
 	"time"
 )

@@ -1,7 +1,7 @@
 package types
 
 import (
-	"gorbac/utils/logger"
+	"gorbac/pkg/utils/logger"
 	"strconv"
 )
 

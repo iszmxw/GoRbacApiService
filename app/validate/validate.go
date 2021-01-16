@@ -3,7 +3,7 @@ package requests
 import (
 	"errors"
 	"fmt"
-	"gorbac/app/models"
+	"gorbac/pkg/mysql"
 	"strconv"
 	"strings"
 	"unicode/utf8"
@@ -22,7 +22,7 @@ func init() {
 		val := value.(string)
 
 		var count int64
-		models.DB.Table(tableName).Where(dbFiled+" = ?", val).Count(&count)
+		mysql.DB.Table(tableName).Where(dbFiled+" = ?", val).Count(&count)
 
 		if count != 0 {
 
