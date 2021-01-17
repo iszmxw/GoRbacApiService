@@ -7,21 +7,18 @@ import (
 )
 
 // 注册路由
-func RegisterWebRoutes(router *gin.Engine) {
+func RegisterWebRoutes(router *gin.RouterGroup) {
 	// 路由分组
-	v1 := router.Group("/v1")
+	// 后台 模块
+	Admin := router.Group("/admin")
 	{
-		// 后台 模块
-		Admin := v1.Group("/admin")
-		{
-			// 登录系统
-			Admin.POST("/login", admin.LoginHandler)
-			// 退出系统
-			Admin.POST("/logout", admin.LogoutHandler)
-			// 调用中间件
-			Admin.Use(middlewares.Admin)
-			// 获取用户信息
-			Admin.POST("/userinfo", admin.UserInfoHandler)
-		}
+		// 登录系统
+		Admin.POST("/user/login", admin.LoginHandler)
+		// 退出系统
+		Admin.POST("/logout", admin.LogoutHandler)
+		// 调用中间件
+		Admin.Use(middlewares.Admin)
+		// 获取用户信息
+		Admin.POST("/userinfo", admin.UserInfoHandler)
 	}
 }

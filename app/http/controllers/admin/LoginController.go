@@ -37,8 +37,7 @@ func LoginHandler(c *gin.Context) {
 	}
 	//返回数据
 	utils.SuccessData(c, gin.H{
-		"tips":  "用户名为：" + params.Username + "，输入的密码为：" + params.Password,
-		"token": t,
+		"token": t["token"],
 	})
 }
 
