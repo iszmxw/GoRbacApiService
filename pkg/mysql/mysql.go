@@ -2,6 +2,7 @@ package mysql
 
 import (
 	"fmt"
+	"gorbac/pkg/config"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	gormlogger "gorm.io/gorm/logger"
@@ -17,12 +18,12 @@ func ConnectDB() *gorm.DB {
 
 	// 初始化 MySQL 连接信息
 	var (
-		host     = "192.168.26.139"
-		port     = "3306"
-		database = "gorbac"
-		username = "root"
-		password = "root"
-		charset  = "utf8mb4"
+		host     = config.GetString("database.mysql.host")
+		port     = config.GetString("database.mysql.port")
+		database = config.GetString("database.mysql.database")
+		username = config.GetString("database.mysql.username")
+		password = config.GetString("database.mysql.password")
+		charset  = config.GetString("database.mysql.charset")
 	)
 	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=%s&parseTime=%t&loc=%s", username, password, host, port, database, charset, true, "Local")
 
