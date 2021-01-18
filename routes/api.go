@@ -12,13 +12,12 @@ func RegisterWebRoutes(router *gin.RouterGroup) {
 	// 后台 模块
 	Admin := router.Group("/admin")
 	{
+		Admin.Use(middlewares.Admin())
 		// 登录系统
 		Admin.POST("/user/login", admin.LoginHandler)
 		// 退出系统
-		Admin.POST("/logout", admin.LogoutHandler)
-		// 调用中间件
-		Admin.Use(middlewares.Admin)
+		Admin.POST("/user/logout", admin.LogoutHandler)
 		// 获取用户信息
-		Admin.POST("/userinfo", admin.UserInfoHandler)
+		Admin.POST("/user/info", admin.UserInfoHandler)
 	}
 }

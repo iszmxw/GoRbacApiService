@@ -6,7 +6,6 @@ import (
 	"gorbac/app/models"
 	"gorbac/pkg/config"
 	"strconv"
-	"strings"
 	"time"
 )
 
@@ -51,11 +50,11 @@ func AuthToken(tokenString string) (uint64, interface{}) {
 	if tokenString == "" {
 		return 0, "认证失败"
 	}
-	kv := strings.Split(tokenString, " ")
-	if kv[0] != "Bearer" {
-		return 0, "认证失败"
-	}
-	tokenString = kv[1]
+	//kv := strings.Split(tokenString, " ")
+	//if kv[0] != "Bearer" {
+	//	return 0, "认证失败"
+	//}
+	//tokenString = kv[1]
 	token, _ := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, fmt.Errorf("Unexpected signing method: %v", token.Header["alg"])
