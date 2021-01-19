@@ -8,7 +8,11 @@ import (
 
 // BaseModel 模型基类
 type BaseModel struct {
-	Id        uint64    `gorm:"column:id;primaryKey;autoIncrement;not null" json:"id"`
+	Id uint64 `gorm:"column:id;primaryKey;autoIncrement;not null" json:"id"`
+}
+
+// BaseModelLast 模型基类
+type BaseModelLast struct {
 	CreatedAt time.Time `gorm:"column:created_at;index;comment:创建时间" json:"created_at"`
 	UpdatedAt time.Time `gorm:"column:updated_at;comment:更新时间" json:"updated_at"`
 	// 支持 gorm 软删除

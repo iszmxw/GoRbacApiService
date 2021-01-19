@@ -29,6 +29,9 @@ func SetupDB() {
 // 自动迁移
 func migration(db *gorm.DB) {
 	db.AutoMigrate(
+		// Account 管理员表
 		&models.Account{},
+		// LoginLog 登录日志表
+		&models.LoginLog{},
 	)
 }

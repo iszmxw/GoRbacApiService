@@ -43,7 +43,7 @@ func CheckLogin(c *gin.Context) {
 	//查询数据库
 	where := make(map[string]interface{})
 	where["id"] = id
-	auth := models.GetOne(where, models.Account{})
+	auth, _ := models.GetOne(where)
 	// 保存用户到 上下文
 	c.Set("auth", auth)
 	c.Set("auth_id", id)

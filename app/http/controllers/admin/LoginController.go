@@ -25,7 +25,7 @@ func LoginHandler(c *gin.Context) {
 	//查询数据库
 	where := make(map[string]interface{})
 	where["username"] = params.Username
-	res := models.GetOne(where, models.Account{})
+	res, _ := models.GetOne(where)
 	if params.Password != res.Password {
 		utils.SuccessErr(c, 50000, "密码输入错误，请您确认后再试！")
 		return
@@ -36,10 +36,26 @@ func LoginHandler(c *gin.Context) {
 		utils.SuccessErr(c, 50000, err)
 		return
 	}
+
+	// 添加登录日志
+	loginLog := models.LoginLog{
+		AccountId: res.Id,
+		Type:      res.Level,
+		Username:  res.Username,
+		RoleId:    res.RoleId,
+		Ip:        "127.0.0.1",
+		Address:   "本地开发",
+	}
+	_ = loginLog.Create()
+	if loginLog.Id > 0 {
+		//返回数据
+		utils.Rjson(c, gin.H{
+			"token": t["token"],
+		}, "登录成功！")
+		return
+	}
 	//返回数据
-	utils.Rjson(c, gin.H{
-		"token": t["token"],
-	}, "登录成功！")
+	utils.SuccessErr(c, 50000, "登录失败，请联系管理员！")
 }
 
 // 退出
