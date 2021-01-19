@@ -49,15 +49,15 @@ func LogoutHandler(c *gin.Context) {
 
 // 获取用户信息
 func UserInfoHandler(c *gin.Context) {
-	//auth, _ := c.Get("auth")
+	auth, _ := c.Get("auth")
 	c.JSON(200, gin.H{
 		"message": "登录成功",
 		"code":    20000,
 		"data": gin.H{
 			"roles":        fmt.Sprintf("[%s]", "admin"),
-			"name":         "admin",
-			"introduction": "admin",
-			"avatar":       "http://basicsapi.test/images/user.gif",
+			"name":         auth.(models.Account).Username,
+			"introduction": auth.(models.Account).Username,
+			"avatar":       "http://blog.54zm.com/style/web/iszmxw_simple_pro/static/images/head.jpg",
 		},
 	})
 }
