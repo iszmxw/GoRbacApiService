@@ -6,6 +6,7 @@ import (
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	gormlogger "gorm.io/gorm/logger"
+	"gorm.io/gorm/schema"
 	"log"
 )
 
@@ -23,6 +24,7 @@ func ConnectDB() *gorm.DB {
 		database = config.GetString("database.mysql.database")
 		username = config.GetString("database.mysql.username")
 		password = config.GetString("database.mysql.password")
+		prefix   = config.GetString("database.mysql.prefix")
 		charset  = config.GetString("database.mysql.charset")
 	)
 	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=%s&parseTime=%t&loc=%s", username, password, host, port, database, charset, true, "Local")
@@ -36,6 +38,10 @@ func ConnectDB() *gorm.DB {
 	level = gormlogger.Warn
 	// 准备数据库连接池
 	DB, err = gorm.Open(gormConfig, &gorm.Config{
+		NamingStrategy: schema.NamingStrategy{
+			TablePrefix:   prefix, // 表名前缀，`User` 的表名应该是 `go_users`
+			SingularTable: true,   // 使用单数表名，启用该选项，此时，`User` 的表名应该是 `go_user`
+		},
 		Logger: gormlogger.Default.LogMode(level),
 	})
 	if err != nil {
