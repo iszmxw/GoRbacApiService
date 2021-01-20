@@ -20,9 +20,10 @@ func GetParam(c *gin.Context, name string) string {
 	if len(param) <= 0 {
 		var json map[string]interface{}
 		_ = c.Bind(&json)
-		param = fmt.Sprintf("%s", json[name])
-		if "%!s(<nil>)" == param {
-			return ""
+		param = fmt.Sprintf("%v", json[name])
+		fmt.Println(fmt.Sprintf("名称是：%v，值是%v", name, param))
+		if "<nil>" == param {
+			param = ""
 		}
 	}
 	return param

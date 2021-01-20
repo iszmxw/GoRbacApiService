@@ -23,3 +23,13 @@ type BaseModelLast struct {
 func (a BaseModel) GetStringID() string {
 	return types.Uint64ToString(a.Id)
 }
+
+// 分页返回数
+type PageList struct {
+	CurrentPage int64       `json:"current_page"`
+	FirstPage   int64       `json:"first_page"`
+	LastPage    int64       `json:"last_page"`
+	PageSize    int64       `json:"page_size"`
+	Total       int64       `json:"total"`
+	Data        interface{} `json:"data"`
+}

@@ -29,7 +29,7 @@ func Admin() gin.HandlerFunc {
 func CheckLogin(c *gin.Context) {
 	// 获取 "Admin-Token"
 	tokenString := utils.GetParam(c, "Admin-Token")
-	if len(tokenString) <= 0 || tokenString == "%!s(<nil>)" {
+	if len(tokenString) <= 0 || tokenString == "<nil>" {
 		utils.SuccessErr(c, 50000, "未检测到token")
 		c.Abort()
 		return

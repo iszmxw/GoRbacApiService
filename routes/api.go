@@ -19,5 +19,7 @@ func RegisterWebRoutes(router *gin.RouterGroup) {
 		Admin.POST("/user/logout", admin.LogoutHandler)
 		// 获取用户信息
 		Admin.POST("/user/info", admin.UserInfoHandler)
+		// 获取登录日志
+		Admin.POST("/dashboard/login_log", admin.LoginLogHandler)
 	}
 }

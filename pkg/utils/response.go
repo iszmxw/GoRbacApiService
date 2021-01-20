@@ -8,9 +8,9 @@ import (
 func Rjson(c *gin.Context, data interface{}, msg string) {
 	var rdata map[string]interface{}
 	if len(msg) > 0 {
-		rdata = gin.H{"code": 20000, "data": data}
-	} else {
 		rdata = gin.H{"code": 20000, "data": data, "msg": msg}
+	} else {
+		rdata = gin.H{"code": 20000, "data": data}
 	}
 	c.JSON(200, rdata)
 }
