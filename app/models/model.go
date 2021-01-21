@@ -38,6 +38,11 @@ type PageList struct {
 
 // 设置分页参数
 func InitPageList(lists *PageList) {
+
+	// 当前页数
+	if lists.CurrentPage <= 0 {
+		lists.CurrentPage = 1
+	}
 	// 每页取出多少条数据，默认15条
 	if lists.PageSize == 0 {
 		lists.PageSize = 15
