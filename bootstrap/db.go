@@ -33,5 +33,7 @@ func migration(db *gorm.DB) {
 		&models.Account{},
 		// LoginLog 登录日志表
 		&models.LoginLog{},
+		// OperationLog 操作日志
+		&models.OperationLog{},
 	)
 }

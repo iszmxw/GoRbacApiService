@@ -1,6 +1,7 @@
 package models
 
 import (
+	"gorbac/pkg/mysql"
 	"gorbac/pkg/utils/types"
 	"gorm.io/gorm"
 	"time"
@@ -32,4 +33,25 @@ type PageList struct {
 	PageSize    int64       `json:"page_size"`
 	Total       int64       `json:"total"`
 	Data        interface{} `json:"data"`
+	Offset      int64       `json:"-"`
+}
+
+// 设置分页参数
+func InitPageList(lists *PageList) {
+	// 每页取出多少条数据，默认15条
+	if lists.PageSize == 0 {
+		lists.PageSize = 15
+	}
+	// 第一页
+	if lists.FirstPage == 0 {
+		lists.FirstPage = 1
+	}
+
+	lists.Offset = (lists.CurrentPage - 1) * lists.PageSize
+	// 查询总条数
+	var count int64
+	mysql.DB.Model(lists.Data).Count(&count)
+	lists.Total = count
+	// 最后一页
+	lists.LastPage = (count / lists.PageSize) + 1
 }

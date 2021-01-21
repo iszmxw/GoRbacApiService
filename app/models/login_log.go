@@ -28,24 +28,12 @@ func (LoginLog *LoginLog) Create() (err error) {
 }
 
 // GetPaginate 获取分页数据，返回错误
-func GetPaginate(where interface{}, orderBy interface{}, lists *PageList) {
-	// 每页取出多少条数据
-	if lists.PageSize == 0 {
-		lists.PageSize = 15
-	}
-
-	// 如果未传递，计算
-	offset := int((lists.CurrentPage - 1) * lists.PageSize)
-	// 查询总条数
-	var count int64
-	mysql.DB.Model(lists.Data).Count(&count)
-	lists.Total = count
-	// 最后一页
-	lists.LastPage = (count / lists.PageSize) + 1
-
-	if count > 0 && lists.LastPage >= lists.CurrentPage {
+func (LoginLog LoginLog) GetPaginate(where interface{}, orderBy interface{}, lists *PageList) {
+	// 设置分页参数
+	InitPageList(lists)
+	if lists.Total > 0 && lists.LastPage >= lists.CurrentPage {
 		// 查询语句
-		if err := mysql.DB.Where(where).Order(orderBy).Offset(offset).Limit(int(lists.PageSize)).Find(lists.Data).Error; err != nil {
+		if err := mysql.DB.Where(where).Order(orderBy).Offset(int(lists.Offset)).Limit(int(lists.PageSize)).Find(lists.Data).Error; err != nil {
 			// 记录错误
 			logger.LogError(err)
 		}

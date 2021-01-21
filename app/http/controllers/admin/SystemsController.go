@@ -15,18 +15,20 @@ func LoginLogHandler(c *gin.Context) {
 		Limit   int    `json:"limit"`
 		OrderBy string `json:"orderBy"`
 	}
-	var params PostParams
+	var (
+		params         PostParams
+		loginLogModel  models.LoginLog
+		loginLogModels []models.LoginLog
+	)
 	// 绑定接收的 json 数据到结构体中
 	_ = c.ShouldBindJSON(&params)
 
 	if params.Page <= 0 {
 		params.Page = 1
 	}
-
 	if params.Limit <= 0 {
 		params.Page = 10
 	}
-
 	if len(params.OrderBy) <= 0 {
 		params.OrderBy = "id asc"
 	}
@@ -35,15 +37,14 @@ func LoginLogHandler(c *gin.Context) {
 	pageList := models.PageList{
 		CurrentPage: int64(params.Page),
 		PageSize:    int64(params.Limit),
-		FirstPage:   1,
-		Data:        &[]models.LoginLog{},
+		Data:        &loginLogModels,
 	}
 	// 查询条件
 	where := map[string]interface{}{
 		"account_id": auth.(models.Account).Id,
 	}
 	// 模型获取分页数据
-	models.GetPaginate(where, params.OrderBy, &pageList)
+	loginLogModel.GetPaginate(where, params.OrderBy, &pageList)
 	utils.Rjson(c, pageList, "查询成功！")
 }
 
