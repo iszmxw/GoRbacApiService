@@ -3,6 +3,9 @@ package admin
 import (
 	"github.com/gin-gonic/gin"
 	"gorbac/app/models"
+	"gorbac/app/models/account"
+	"gorbac/app/models/login_log"
+	"gorbac/app/models/operation_log"
 	"gorbac/pkg/utils"
 )
 
@@ -17,8 +20,8 @@ func LoginLogHandler(c *gin.Context) {
 	}
 	var (
 		params         PostParams
-		loginLogModel  models.LoginLog
-		loginLogModels []models.LoginLog
+		loginLogModel  login_log.LoginLog
+		loginLogModels []login_log.LoginLog
 	)
 	// 绑定接收的 json 数据到结构体中
 	_ = c.ShouldBindJSON(&params)
@@ -41,7 +44,7 @@ func LoginLogHandler(c *gin.Context) {
 	}
 	// 查询条件
 	where := map[string]interface{}{
-		"account_id": auth.(models.Account).Id,
+		"account_id": auth.(account.Account).Id,
 	}
 	// 模型获取分页数据
 	loginLogModel.GetPaginate(where, params.OrderBy, &pageList)
@@ -64,8 +67,8 @@ func OperationLogHandler(c *gin.Context) {
 	}
 	var (
 		params             PostParams
-		operationLogModel  models.OperationLog
-		operationLogModels []models.OperationLog
+		operationLogModel  operation_log.OperationLog
+		operationLogModels []operation_log.OperationLog
 	)
 	// 绑定接收的 json 数据到结构体中
 	_ = c.ShouldBindJSON(&params)
@@ -82,7 +85,7 @@ func OperationLogHandler(c *gin.Context) {
 	}
 	// 查询条件
 	where := map[string]interface{}{
-		"account_id": auth.(models.Account).Id,
+		"account_id": auth.(account.Account).Id,
 	}
 	// 模型获取分页数据
 	operationLogModel.GetPaginate(where, params.OrderBy, &pageList)

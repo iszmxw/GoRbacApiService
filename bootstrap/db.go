@@ -1,7 +1,9 @@
 package bootstrap
 
 import (
-	"gorbac/app/models"
+	"gorbac/app/models/account"
+	"gorbac/app/models/login_log"
+	"gorbac/app/models/operation_log"
 	"gorbac/pkg/config"
 	"gorbac/pkg/mysql"
 	"gorm.io/gorm"
@@ -30,10 +32,10 @@ func SetupDB() {
 func migration(db *gorm.DB) {
 	db.AutoMigrate(
 		// Account 管理员表
-		&models.Account{},
+		&account.Account{},
 		// LoginLog 登录日志表
-		&models.LoginLog{},
+		&login_log.LoginLog{},
 		// OperationLog 操作日志
-		&models.OperationLog{},
+		&operation_log.OperationLog{},
 	)
 }

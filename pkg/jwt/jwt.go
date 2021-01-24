@@ -3,7 +3,7 @@ package jwt
 import (
 	"fmt"
 	"github.com/dgrijalva/jwt-go"
-	"gorbac/app/models"
+	"gorbac/app/models/account"
 	"gorbac/pkg/config"
 	"strconv"
 	"time"
@@ -20,7 +20,7 @@ type CustomClaims struct {
 var secretary = config.GetString("jwt.secretary")
 
 // 创建 GetToken
-func GetToken(account models.Account) (map[string]interface{}, error) {
+func GetToken(account account.Account) (map[string]interface{}, error) {
 	// 7200秒过期
 	maxAge, _ := strconv.Atoi(config.GetString("jwt.export"))
 	// 获取两小时后的时间戳

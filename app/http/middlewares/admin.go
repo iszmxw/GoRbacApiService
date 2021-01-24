@@ -2,7 +2,7 @@ package middlewares
 
 import (
 	"github.com/gin-gonic/gin"
-	"gorbac/app/models"
+	"gorbac/app/models/account"
 	"gorbac/pkg/jwt"
 	"gorbac/pkg/utils"
 )
@@ -43,7 +43,7 @@ func CheckLogin(c *gin.Context) {
 	//查询数据库
 	where := make(map[string]interface{})
 	where["id"] = id
-	auth, _ := models.GetOne(where)
+	auth, _ := account.GetOne(where)
 	// 保存用户到 上下文
 	c.Set("auth", auth)
 	c.Set("auth_id", id)

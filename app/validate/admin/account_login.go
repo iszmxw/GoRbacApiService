@@ -2,11 +2,11 @@ package admin
 
 import (
 	"github.com/thedevsaddam/govalidator"
-	"gorbac/app/models"
+	"gorbac/app/models/account"
 )
 
 // ValidateAccount 验证表单，开始验证，并返回一条错误消息
-func ValidateAccount(account models.Account) string {
+func ValidateAccount(account account.Account) string {
 	var msg string
 	// 1. 定制认证规则
 	rules := govalidator.MapData{
