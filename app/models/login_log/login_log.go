@@ -2,6 +2,7 @@ package login_log
 
 import (
 	"gorbac/app/models"
+	"gorbac/pkg/config"
 )
 
 // LoginLog 登录日志表
@@ -14,4 +15,10 @@ type LoginLog struct {
 	Ip        string `gorm:"type:varchar(20);NOT NULL;COMMENT:登录ip" json:"ip"`
 	Address   string `gorm:"type:varchar(20);comment:登录地址" json:"address"`
 	models.BaseModelLast
+}
+
+func (LoginLog) TableName() string {
+	prefix := config.GetString("database.mysql.prefix")
+	table := "login_log"
+	return prefix + table
 }

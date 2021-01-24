@@ -2,7 +2,6 @@ package models
 
 import (
 	"gorbac/pkg/config"
-	"gorbac/pkg/mysql"
 	"gorbac/pkg/utils/types"
 	"gorm.io/gorm"
 	"strings"
@@ -58,12 +57,12 @@ func InitPageList(lists *PageList) {
 		lists.Offset = 0
 	}
 
-	// 查询总条数
-	var count int64
-	mysql.DB.Model(lists.Data).Count(&count)
-	lists.Total = count
 	// 最后一页
-	lists.LastPage = (count / lists.PageSize) + 1
+	if (lists.Total % lists.PageSize) != 0 {
+		lists.LastPage = (lists.Total / lists.PageSize) + 1
+	} else {
+		lists.LastPage = lists.Total / lists.PageSize
+	}
 }
 
 // 置换sql中的表前缀

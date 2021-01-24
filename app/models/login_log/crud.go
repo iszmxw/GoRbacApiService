@@ -18,13 +18,16 @@ func (LoginLog *LoginLog) Create() (err error) {
 
 // GetPaginate 获取分页数据，返回错误
 func (LoginLog LoginLog) GetPaginate(where interface{}, orderBy interface{}, lists *models.PageList) {
+	// 获取表名
+	tableName := LoginLog.TableName()
+	table := mysql.DB.Debug().Table(models.Prefix(tableName)).Where(where).Order(orderBy)
+	table.Count(&lists.Total)
 	// 设置分页参数
 	models.InitPageList(lists)
-	if lists.Total > 0 && lists.LastPage >= lists.CurrentPage {
-		// 查询语句
-		if err := mysql.DB.Where(where).Order(orderBy).Offset(int(lists.Offset)).Limit(int(lists.PageSize)).Find(lists.Data).Error; err != nil {
-			// 记录错误
-			logger.LogError(err)
-		}
+	table = table.Offset(int(lists.Offset)).Limit(int(lists.PageSize)).Find(lists.Data)
+	err := table.Error
+	if err != nil {
+		// 记录错误
+		logger.LogError(err)
 	}
 }
