@@ -21,9 +21,9 @@ func (rm *OperationLog) GetPaginate(accountId uint64, orderBy interface{}, lists
 	// 获取表名
 	tableName := rm.TableName()
 	table := mysql.DB.Debug().Table(models.Prefix(tableName))
-	table = table.Select(models.Prefix("{$prefix}account.username,{$prefix}operation_log.*"))
-	table = table.Joins(models.Prefix("left join {$prefix}account on {$prefix}account.id={$prefix}operation_log.account_id"))
-	table = table.Where(models.Prefix("{$prefix}operation_log.account_id = ?"), accountId)
+	table = table.Select(models.Prefix("$prefix_account.username,$prefix_operation_log.*"))
+	table = table.Joins(models.Prefix("left join $prefix_account on $prefix_account.id=$prefix_operation_log.account_id"))
+	table = table.Where(models.Prefix("$prefix_operation_log.account_id = ?"), accountId)
 	table.Count(&lists.Total)
 	table = table.Order(orderBy)
 	table = table.Offset(int(lists.Offset))

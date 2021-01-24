@@ -68,5 +68,5 @@ func InitPageList(lists *PageList) {
 // 置换sql中的表前缀
 func Prefix(str string) string {
 	prefix := config.GetString("database.mysql.prefix")
-	return strings.Replace(str, "{$prefix}", prefix, -1)
+	return strings.Replace(str, "$prefix_", prefix, -1)
 }
