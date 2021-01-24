@@ -1,9 +1,11 @@
 package models
 
 import (
+	"gorbac/pkg/config"
 	"gorbac/pkg/mysql"
 	"gorbac/pkg/utils/types"
 	"gorm.io/gorm"
+	"strings"
 	"time"
 )
 
@@ -38,7 +40,6 @@ type PageList struct {
 
 // 设置分页参数
 func InitPageList(lists *PageList) {
-
 	// 当前页数
 	if lists.CurrentPage <= 0 {
 		lists.CurrentPage = 1
@@ -53,10 +54,20 @@ func InitPageList(lists *PageList) {
 	}
 
 	lists.Offset = (lists.CurrentPage - 1) * lists.PageSize
+	if lists.Offset < 0 {
+		lists.Offset = 0
+	}
+
 	// 查询总条数
 	var count int64
 	mysql.DB.Model(lists.Data).Count(&count)
 	lists.Total = count
 	// 最后一页
 	lists.LastPage = (count / lists.PageSize) + 1
+}
+
+// 置换sql中的表前缀
+func Prefix(str string) string {
+	prefix := config.GetString("database.mysql.prefix")
+	return strings.Replace(str, "{$prefix}", prefix, -1)
 }

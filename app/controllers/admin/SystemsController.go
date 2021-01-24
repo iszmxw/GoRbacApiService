@@ -66,29 +66,21 @@ func OperationLogHandler(c *gin.Context) {
 		OrderBy string `json:"orderBy"`
 	}
 	var (
-		params             PostParams
-		operationLogModel  operation_log.OperationLog
-		operationLogModels []operation_log.OperationLog
+		params            PostParams
+		operationLogModel operation_log.OperationLog
 	)
 	// 绑定接收的 json 数据到结构体中
 	_ = c.ShouldBindJSON(&params)
-
 	if len(params.OrderBy) <= 0 {
 		params.OrderBy = "id asc"
 	}
-
 	// 申明要取出的数据结构体
 	pageList := models.PageList{
 		CurrentPage: int64(params.Page),
 		PageSize:    int64(params.Limit),
-		Data:        &operationLogModels,
-	}
-	// 查询条件
-	where := map[string]interface{}{
-		"account_id": auth.(account.Account).Id,
 	}
 	// 模型获取分页数据
-	operationLogModel.GetPaginate(where, params.OrderBy, &pageList)
+	operationLogModel.GetPaginate(auth.(account.Account).Id, params.OrderBy, &pageList)
 	utils.Rjson(c, pageList, "查询成功！")
 }
 
