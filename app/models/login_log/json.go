@@ -1,4 +1,4 @@
-package operation_log
+package login_log
 
 import (
 	"gorm.io/gorm"
@@ -7,14 +7,14 @@ import (
 
 // json 响应结构体定义，供查询数据引用
 
-// 格式化返回操作日志
-type JsonOperationLog struct {
+// 格式化返回登录日志
+type JsonLoginLog struct {
 	Id        uint64         `json:"id"`
-	Type      int            `json:"type"`
 	AccountId uint64         `json:"account_id"`
+	Type      int            `json:"type"`
 	Username  string         `json:"username"`
+	RoleId    int            `json:"role_id"`
 	RoleName  string         `json:"role_name"`
-	Content   string         `json:"content"`
 	Ip        string         `json:"ip"`
 	Address   string         `json:"address"`
 	CreatedAt time.Time      `json:"created_at"`

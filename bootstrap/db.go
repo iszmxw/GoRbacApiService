@@ -4,6 +4,7 @@ import (
 	"gorbac/app/models/account"
 	"gorbac/app/models/login_log"
 	"gorbac/app/models/operation_log"
+	"gorbac/app/models/role"
 	"gorbac/pkg/config"
 	"gorbac/pkg/mysql"
 	"gorm.io/gorm"
@@ -37,5 +38,7 @@ func migration(db *gorm.DB) {
 		&login_log.LoginLog{},
 		// OperationLog 操作日志
 		&operation_log.OperationLog{},
+		// Role 角色表
+		&role.Role{},
 	)
 }

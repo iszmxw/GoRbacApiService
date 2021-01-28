@@ -17,17 +17,24 @@ func (LoginLog *LoginLog) Create() (err error) {
 }
 
 // GetPaginate 获取分页数据，返回错误
-func (LoginLog LoginLog) GetPaginate(where interface{}, orderBy interface{}, lists *models.PageList) {
+func (LoginLog LoginLog) GetPaginate(accountId uint64, orderBy interface{}, lists *models.PageList) {
+	var result []JsonLoginLog
 	// 获取表名
 	tableName := LoginLog.TableName()
-	table := mysql.DB.Debug().Table(models.Prefix(tableName)).Where(where).Order(orderBy)
+	table := mysql.DB.Debug().Table(models.Prefix(tableName))
+	table = table.Select(models.Prefix("$prefix_login_log.*,$prefix_role.name as role_name"))
+	table = table.Joins(models.Prefix("left join $prefix_role on $prefix_role.id=$prefix_login_log.role_id"))
+	table = table.Where(models.Prefix("$prefix_login_log.account_id = ?"), accountId)
 	table.Count(&lists.Total)
-	// 设置分页参数
-	models.InitPageList(lists)
-	table = table.Offset(int(lists.Offset)).Limit(int(lists.PageSize)).Find(lists.Data)
-	err := table.Error
-	if err != nil {
+	table = table.Order(orderBy)
+	table = table.Offset(int(lists.Offset))
+	table = table.Limit(int(lists.PageSize))
+	if err := table.Scan(&result).Error; err != nil {
 		// 记录错误
 		logger.LogError(err)
+	} else {
+		lists.Data = result
 	}
+	// 设置分页参数
+	models.InitPageList(lists)
 }
