@@ -4,6 +4,8 @@ import (
 	"gorbac/app/models"
 	"gorbac/pkg/mysql"
 	"gorbac/pkg/utils/logger"
+	"strconv"
+	"strings"
 )
 
 // Create 创建角色，通过 Role.ID 来判断是否创建成功
@@ -21,6 +23,20 @@ func (Model Role) GetOne(where map[string]interface{}) (Role, error) {
 		return role, err
 	}
 	return role, nil
+}
+
+// GetValue 获取一条角色详情
+func (Model Role) GetValue(Id uint64) (interface{}, error) {
+	var result []string
+	var routes string
+	// 获取表名
+	tableName := Model.TableName()
+	table := mysql.DB.Table(models.Prefix(tableName))
+	table = table.Where(models.Prefix("$prefix_role.id =" + strconv.FormatUint(Id, 10)))
+	table = table.Select(models.Prefix("$prefix_role.routes"))
+	table.Scan(&routes)
+	result = strings.Split(routes, ",")
+	return result, nil
 }
 
 // GetPaginate 获取分页数据，返回错误
