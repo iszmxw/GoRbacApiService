@@ -10,8 +10,11 @@ import (
 	"gorbac/pkg/utils"
 )
 
+type LoginController struct {
+}
+
 // 登录
-func LoginHandler(c *gin.Context) {
+func (Controller LoginController) LoginHandler(c *gin.Context) {
 	// 初始化数据模型结构体
 	params := account.Account{}
 	// 绑定接收的 json 数据到结构体中
@@ -60,12 +63,12 @@ func LoginHandler(c *gin.Context) {
 }
 
 // 退出
-func LogoutHandler(c *gin.Context) {
+func (Controller LoginController) LogoutHandler(c *gin.Context) {
 	c.JSON(20000, gin.H{"message": "退出系统"})
 }
 
 // 获取用户信息
-func UserInfoHandler(c *gin.Context) {
+func (Controller LoginController) UserInfoHandler(c *gin.Context) {
 	auth, _ := c.Get("auth")
 	c.JSON(200, gin.H{
 		"message": "登录成功",

@@ -9,8 +9,11 @@ import (
 	"gorbac/pkg/utils"
 )
 
+type SystemsController struct {
+}
+
 // 获取登录日志
-func LoginLogHandler(c *gin.Context) {
+func (Controller SystemsController) LoginLogHandler(c *gin.Context) {
 	auth, _ := c.Get("auth")
 	// 接收数据使用的结构体
 	type PostParams struct {
@@ -47,12 +50,12 @@ func LoginLogHandler(c *gin.Context) {
 }
 
 // 首页统计
-func StatisticsHandler(c *gin.Context) {
+func (Controller SystemsController) StatisticsHandler(c *gin.Context) {
 	//auth, _ := c.Get("auth")
 }
 
 // 操作日志
-func OperationLogHandler(c *gin.Context) {
+func (Controller SystemsController) OperationLogHandler(c *gin.Context) {
 	auth, _ := c.Get("auth")
 	// 接收数据使用的结构体
 	type PostParams struct {
@@ -80,6 +83,6 @@ func OperationLogHandler(c *gin.Context) {
 }
 
 // 修改密码
-func ResetPasswordHandler(c *gin.Context) {
+func (Controller SystemsController) ResetPasswordHandler(c *gin.Context) {
 
 }

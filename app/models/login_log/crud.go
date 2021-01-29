@@ -21,7 +21,7 @@ func (LoginLog LoginLog) GetPaginate(accountId uint64, orderBy interface{}, list
 	var result []JsonLoginLog
 	// 获取表名
 	tableName := LoginLog.TableName()
-	table := mysql.DB.Debug().Table(models.Prefix(tableName))
+	table := mysql.DB.Table(models.Prefix(tableName))
 	table = table.Select(models.Prefix("$prefix_login_log.*,$prefix_role.name as role_name"))
 	table = table.Joins(models.Prefix("left join $prefix_role on $prefix_role.id=$prefix_login_log.role_id"))
 	table = table.Where(models.Prefix("$prefix_login_log.account_id = ?"), accountId)

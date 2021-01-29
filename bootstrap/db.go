@@ -5,6 +5,7 @@ import (
 	"gorbac/app/models/login_log"
 	"gorbac/app/models/operation_log"
 	"gorbac/app/models/role"
+	"gorbac/app/models/route"
 	"gorbac/pkg/config"
 	"gorbac/pkg/mysql"
 	"gorm.io/gorm"
@@ -40,5 +41,7 @@ func migration(db *gorm.DB) {
 		&operation_log.OperationLog{},
 		// Role 角色表
 		&role.Role{},
+		// Route 菜单路由节点
+		&route.Route{},
 	)
 }

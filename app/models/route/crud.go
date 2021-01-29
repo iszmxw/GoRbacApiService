@@ -1,4 +1,4 @@
-package role
+package route
 
 import (
 	"gorbac/app/models"
@@ -6,8 +6,8 @@ import (
 	"gorbac/pkg/utils/logger"
 )
 
-// Create 创建角色，通过 Role.ID 来判断是否创建成功
-func (Model Role) Create(a Role) (err error) {
+// Create 创建菜单路由节点
+func (Model Route) Create(a Route) (err error) {
 	if err = mysql.DB.Create(&a).Error; err != nil {
 		return err
 	}
@@ -15,8 +15,8 @@ func (Model Role) Create(a Role) (err error) {
 }
 
 // GetOne 获取一条数据
-func (Model Role) GetOne(where map[string]interface{}) (Role, error) {
-	var role Role
+func (Model Route) GetOne(where map[string]interface{}) (Route, error) {
+	var role Route
 	if err := mysql.DB.Where(where).First(&role).Error; err != nil {
 		return role, err
 	}
@@ -24,8 +24,8 @@ func (Model Role) GetOne(where map[string]interface{}) (Role, error) {
 }
 
 // GetPaginate 获取分页数据，返回错误
-func (Model Role) GetPaginate(accountId uint64, orderBy interface{}, lists *models.PageList) {
-	var result []JsonRole
+func (Model Route) GetPaginate(accountId uint64, orderBy interface{}, lists *models.PageList) {
+	var result []JsonRoute
 	// 获取表名
 	tableName := Model.TableName()
 	table := mysql.DB.Table(models.Prefix(tableName))

@@ -13,19 +13,32 @@ func RegisterWebRoutes(router *gin.RouterGroup) {
 	Admin := router.Group("/admin")
 	{
 		Admin.Use(admin2.Admin())
+
+		// 登录控制器
+		LoginController := admin.LoginController{}
 		// 登录系统
-		Admin.POST("/user/login", admin.LoginHandler)
+		Admin.POST("/user/login", LoginController.LoginHandler)
 		// 退出系统
-		Admin.POST("/user/logout", admin.LogoutHandler)
+		Admin.POST("/user/logout", LoginController.LogoutHandler)
 		// 获取用户信息
-		Admin.POST("/user/info", admin.UserInfoHandler)
+		Admin.POST("/user/info", LoginController.UserInfoHandler)
+
+		// 系统控制器
+		SystemsController := admin.SystemsController{}
 		// 首页统计
-		Admin.POST("/dashboard/statistics", admin.StatisticsHandler)
+		Admin.POST("/dashboard/statistics", SystemsController.StatisticsHandler)
 		// 获取登录日志
-		Admin.POST("/dashboard/login_log", admin.LoginLogHandler)
+		Admin.POST("/dashboard/login_log", SystemsController.LoginLogHandler)
 		// 获取操作日志
-		Admin.POST("/dashboard/operation_log", admin.OperationLogHandler)
+		Admin.POST("/dashboard/operation_log", SystemsController.OperationLogHandler)
 		// 修改登录密码
-		Admin.POST("/dashboard/reset_password", admin.ResetPasswordHandler)
+		Admin.POST("/dashboard/reset_password", SystemsController.ResetPasswordHandler)
+
+		// 角色控制器
+		RolesController := admin.RolesController{}
+		// 角色列表
+		Admin.POST("/roles/list", RolesController.ListHandler)
+		// 角色详情
+		Admin.POST("/roles/routes", RolesController.DetailHandler)
 	}
 }

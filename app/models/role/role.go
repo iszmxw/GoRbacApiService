@@ -2,6 +2,7 @@ package role
 
 import (
 	"gorbac/app/models"
+	"gorbac/pkg/config"
 )
 
 // Role 角色表
@@ -11,4 +12,10 @@ type Role struct {
 	Routes string `gorm:"type:varchar(255);comment:路由id,该角色所具有的路由" json:"routes"`
 	Desc   string `gorm:"type:varchar(255);comment:角色描述" json:"desc"`
 	models.BaseModelLast
+}
+
+func (Role) TableName() string {
+	prefix := config.GetString("database.mysql.prefix")
+	table := "role"
+	return prefix + table
 }
