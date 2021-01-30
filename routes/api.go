@@ -3,7 +3,7 @@ package routes
 import (
 	"github.com/gin-gonic/gin"
 	"gorbac/app/controllers/admin"
-	admin2 "gorbac/app/middlewares/admin"
+	middlewares "gorbac/app/middlewares/admin"
 )
 
 // 注册路由
@@ -12,7 +12,7 @@ func RegisterWebRoutes(router *gin.RouterGroup) {
 	// 后台 模块
 	Admin := router.Group("/admin")
 	{
-		Admin.Use(admin2.Admin())
+		Admin.Use(middlewares.Admin())
 
 		// 登录控制器
 		LoginController := admin.LoginController{}

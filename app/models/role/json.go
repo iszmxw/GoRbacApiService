@@ -30,5 +30,5 @@ type AllRouteList struct {
 	Name     string         `json:"name"`
 	ParentId int            `json:"parent_id"`
 	Disabled bool           `json:"disabled"`
-	Children interface{} `json:"children"`
+	Children []AllRouteList `json:"children" gorm:"-"`
 }
