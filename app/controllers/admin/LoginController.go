@@ -64,7 +64,7 @@ func (Controller LoginController) LoginHandler(c *gin.Context) {
 
 // 退出
 func (Controller LoginController) LogoutHandler(c *gin.Context) {
-	c.JSON(20000, gin.H{"message": "退出系统"})
+	c.JSON(200, gin.H{"code": 20000, "msg": "退出成功"})
 }
 
 // 获取用户信息
