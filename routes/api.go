@@ -40,5 +40,14 @@ func RegisterWebRoutes(router *gin.RouterGroup) {
 		Admin.POST("/roles/list", RolesController.ListHandler)
 		// 角色详情
 		Admin.POST("/roles/routes", RolesController.DetailHandler)
+
+		// 菜单路由控制器
+		MenusController := admin.MenusController{}
+		// 创建菜单路由
+		Admin.POST("/menus/add", MenusController.CreatedHandler)
+		// 删除菜单路由
+		Admin.POST("/menus/delete", MenusController.DeletedHandler)
+		// 获取菜单路由
+		Admin.POST("/menus/list", MenusController.ListHandler)
 	}
 }

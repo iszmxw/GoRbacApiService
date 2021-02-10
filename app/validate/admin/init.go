@@ -1,4 +1,4 @@
-package requests
+package admin
 
 import (
 	"errors"
