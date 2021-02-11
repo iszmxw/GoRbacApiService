@@ -1,12 +1,12 @@
-package menus
+package routes
 
 import (
 	"gorbac/app/models"
 	"gorbac/pkg/config"
 )
 
-// Menus 菜单路由节点
-type Menus struct {
+// Routes 菜单路由节点
+type Routes struct {
 	models.BaseModel
 	Sort     int    `gorm:"type:int(11);default:0;comment:排序" json:"sort"`
 	Type     string `gorm:"type:varchar(10);not null;default:page;comment:page-页面   api-接口" json:"type"`
@@ -20,7 +20,7 @@ type Menus struct {
 	models.BaseModelLast
 }
 
-func (Menus) TableName() string {
+func (Routes) TableName() string {
 	prefix := config.GetString("database.mysql.prefix")
 	table := "routes"
 	return prefix + table

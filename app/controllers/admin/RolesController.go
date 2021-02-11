@@ -5,7 +5,7 @@ import (
 	"gorbac/app/models"
 	"gorbac/app/models/account"
 	"gorbac/app/models/role"
-	"gorbac/app/models/route"
+	"gorbac/app/models/routes"
 	"gorbac/pkg/utils"
 )
 
@@ -58,7 +58,7 @@ func (RolesController) DetailHandler(c *gin.Context) {
 		params       PostParams
 		disabled     bool
 		Role         role.Role
-		Route        route.Route
+		Routes       routes.Routes
 		result       role.JsonRoleDetail
 		AllRouteList []role.AllRouteList
 	)
@@ -70,9 +70,9 @@ func (RolesController) DetailHandler(c *gin.Context) {
 		disabled = true
 	}
 	// 模型获取数据
-	AllRouteList, _ = Route.GetTreeData()
+	AllRouteList, _ = Routes.GetRouteList()
 	result.DefaultChecked, _ = Role.GetValue(uint64(params.Id))
-	result.AllRouteList = route.GetTree(AllRouteList, 0, disabled)
+	result.AllRouteList = routes.GetRoleTree(AllRouteList, 0, disabled)
 	utils.Rjson(c, result, "查询成功！")
 
 }

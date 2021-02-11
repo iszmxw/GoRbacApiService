@@ -1,4 +1,4 @@
-package menus
+package routes
 
 import (
 	"gorm.io/gorm"
@@ -8,7 +8,19 @@ import (
 // json 响应结构体定义，供查询数据引用
 
 // 格式化返回菜单路由节点
-type JsonTreeMenus struct {
+type JsonRoute struct {
+	Id        uint64         `json:"id"`
+	Name      string         `json:"name"`
+	Routes    string         `json:"routes"`
+	Desc      string         `json:"desc"`
+	CreatedAt time.Time      `json:"created_at"`
+	UpdatedAt time.Time      `json:"updated_at"`
+	DeletedAt gorm.DeletedAt `json:"deleted_at"`
+}
+
+
+// 格式化返回菜单路由节点
+type JsonTreeRoute struct {
 	Id        uint64          `json:"id"`
 	Sort      int             `json:"sort"`
 	Type      string          `json:"type"`
@@ -22,5 +34,5 @@ type JsonTreeMenus struct {
 	CreatedAt time.Time       `json:"created_at"`
 	UpdatedAt time.Time       `json:"updated_at"`
 	DeletedAt gorm.DeletedAt  `json:"deleted_at"`
-	Children  []JsonTreeMenus `json:"children" gorm:"-"`
+	Children  []JsonTreeRoute `json:"children" gorm:"-"`
 }

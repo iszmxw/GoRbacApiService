@@ -3,9 +3,8 @@ package admin
 import (
 	"github.com/gin-gonic/gin"
 	"gorbac/app/models/account"
-	"gorbac/app/models/menus"
 	"gorbac/app/models/role"
-	"gorbac/app/models/route"
+	"gorbac/app/models/routes"
 	"gorbac/app/validate/admin"
 	"gorbac/pkg/utils"
 )
@@ -18,7 +17,7 @@ func (Controller MenusController) CreatedHandler(c *gin.Context) {
 	// 登录信息
 	auth, _ := c.Get("auth")
 	// 初始化数据模型结构体
-	params := menus.Menus{}
+	params := routes.Routes{}
 	// 绑定接收的 json 数据到结构体中
 	_ = c.ShouldBindJSON(&params)
 	// 验证器验证
@@ -28,7 +27,7 @@ func (Controller MenusController) CreatedHandler(c *gin.Context) {
 		return
 	}
 	params.CreateBy = int(auth.(account.Account).Id)
-	err := menus.Menus{}.Create(params)
+	err := routes.Routes{}.Create(params)
 	if err != nil {
 		utils.SuccessErr(c, 50000, err.Error())
 	}
@@ -40,9 +39,9 @@ func (Controller MenusController) CreatedHandler(c *gin.Context) {
 func (Controller MenusController) DeletedHandler(c *gin.Context) {
 	// 登录信息
 	_, _ = c.Get("auth")
-	var params menus.Menus
+	var params routes.Routes
 	_ = c.BindJSON(&params)
-	err := menus.Menus{}.Delete(params)
+	err := routes.Routes{}.Delete(params)
 	if err != nil {
 		utils.SuccessErr(c, 50000, err.Error())
 	}
@@ -52,8 +51,8 @@ func (Controller MenusController) DeletedHandler(c *gin.Context) {
 // 菜单列表
 func (MenusController) ListHandler(c *gin.Context) {
 	// 模型获取分页数据
-	result, _ := menus.Menus{}.GetList("sort asc")
-	listTree := menus.GetTree(result, 0)
+	result, _ := routes.Routes{}.GetMenuList("sort asc")
+	listTree := routes.GetMenuTree(result, 0)
 	utils.Rjson(c, listTree, "查询成功！")
 }
 
@@ -68,7 +67,7 @@ func (MenusController) DetailHandler(c *gin.Context) {
 		params       PostParams
 		disabled     bool
 		Role         role.Role
-		Route        route.Route
+		Route        routes.Routes
 		result       role.JsonRoleDetail
 		AllRouteList []role.AllRouteList
 	)
@@ -80,9 +79,9 @@ func (MenusController) DetailHandler(c *gin.Context) {
 		disabled = true
 	}
 	// 模型获取数据
-	AllRouteList, _ = Route.GetTreeData()
+	AllRouteList, _ = Route.GetRouteList()
 	result.DefaultChecked, _ = Role.GetValue(uint64(params.Id))
-	result.AllRouteList = route.GetTree(AllRouteList, 0, disabled)
+	result.AllRouteList = routes.GetRoleTree(AllRouteList, 0, disabled)
 	utils.Rjson(c, result, "查询成功！")
 
 }

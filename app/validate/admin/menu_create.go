@@ -2,16 +2,16 @@ package admin
 
 import (
 	"github.com/thedevsaddam/govalidator"
-	"gorbac/app/models/menus"
+	"gorbac/app/models/routes"
 )
 
 // ValidateMenuCreate 验证表单，开始验证，并返回一条错误消息
-func ValidateMenuCreate(menu menus.Menus) string {
+func ValidateMenuCreate(menu routes.Routes) string {
 	var msg string
 	// 1. 定制认证规则
 	rules := govalidator.MapData{
-		"name":      []string{"required"},
-		"route":     []string{"required"},
+		"name":  []string{"required"},
+		"route": []string{"required"},
 	}
 
 	// 2. 定制错误消息
