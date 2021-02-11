@@ -3,7 +3,6 @@ package admin
 import (
 	"github.com/gin-gonic/gin"
 	"gorbac/app/models/account"
-	"gorbac/app/models/role"
 	"gorbac/app/models/routes"
 	"gorbac/app/validate/admin"
 	"gorbac/pkg/utils"
@@ -48,45 +47,41 @@ func (Controller MenusController) DeletedHandler(c *gin.Context) {
 	utils.Rjson(c, "", "删除成功！")
 }
 
+// 路由详情
+func (Controller MenusController) DetailHandler(c *gin.Context) {
+	var (
+		Route routes.Routes
+	)
+	// 绑定接收的 json 数据到结构体中
+	_ = c.ShouldBindJSON(&Route)
+	// 模型获取数据
+	_ = Route.GetDetail(map[string]interface{}{"id": Route.Id}, &Route)
+	utils.Rjson(c, Route, "查询成功！")
+}
+
+// 编辑菜单路由
+func (Controller MenusController) EditHandler(c *gin.Context) {
+	//auth, _ := c.Get("auth")
+	var (
+		Route routes.Routes
+	)
+	// 绑定接收的 json 数据到结构体中
+	_ = c.ShouldBindJSON(&Route)
+
+	// TODO 添加数据检验，后面在添加
+	// 更新数据
+	err := Route.Updates(map[string]interface{}{"id": Route.Id}, &Route)
+	if err != nil {
+		utils.SuccessErr(c, 5000, "操作失败！"+err.Error())
+	}
+	utils.Rjson(c, "", "操作成功！")
+
+}
+
 // 菜单列表
-func (MenusController) ListHandler(c *gin.Context) {
+func (Controller MenusController) ListHandler(c *gin.Context) {
 	// 模型获取分页数据
 	result, _ := routes.Routes{}.GetMenuList("sort asc")
 	listTree := routes.GetMenuTree(result, 0)
 	utils.Rjson(c, listTree, "查询成功！")
-}
-
-// 路由详情
-func (MenusController) DetailHandler(c *gin.Context) {
-	auth, _ := c.Get("auth")
-	// 接收数据使用的结构体
-	type PostParams struct {
-		Id int `json:"id"`
-	}
-	var (
-		params       PostParams
-		disabled     bool
-		Role         role.Role
-		Route        routes.Routes
-		result       role.JsonRoleDetail
-		AllRouteList []role.AllRouteList
-	)
-	// 绑定接收的 json 数据到结构体中
-	_ = c.ShouldBindJSON(&params)
-	if auth.(account.Account).Id == 1 {
-		disabled = false
-	} else {
-		disabled = true
-	}
-	// 模型获取数据
-	AllRouteList, _ = Route.GetRouteList()
-	result.DefaultChecked, _ = Role.GetValue(uint64(params.Id))
-	result.AllRouteList = routes.GetRoleTree(AllRouteList, 0, disabled)
-	utils.Rjson(c, result, "查询成功！")
-
-}
-
-// 编辑路由
-func (Controller MenusController) EditHandler(c *gin.Context) {
-	//auth, _ := c.Get("auth")
 }

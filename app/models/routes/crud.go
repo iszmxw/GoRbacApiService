@@ -23,13 +23,20 @@ func (Model Routes) Delete(a Routes) (err error) {
 	return nil
 }
 
-// GetOne 获取一条数据
-func (Model Routes) GetOne(where map[string]interface{}) (Routes, error) {
-	var route Routes
-	if err := mysql.DB.Where(where).First(&route).Error; err != nil {
-		return route, err
+// GetDetail 获取一条数据详情
+func (Model Routes) GetDetail(where map[string]interface{}, data *Routes) error {
+	if err := mysql.DB.Debug().Where(where).First(&data).Error; err != nil {
+		return err
 	}
-	return route, nil
+	return nil
+}
+
+// Updates 更新数据
+func (Model Routes) Updates(where map[string]interface{}, data *Routes) error {
+	if err := mysql.DB.Debug().Model(&data).Where(where).Updates(data).Error; err != nil {
+		return err
+	}
+	return nil
 }
 
 // GetRouteList 获取角色路由数据列表
@@ -47,8 +54,8 @@ func (Model Routes) GetRouteList() ([]role.AllRouteList, error) {
 }
 
 // GetMenuList 获取列表数据，返回错误
-func (Model Routes) GetMenuList(orderBy interface{}) ([]JsonTreeRoute, error) {
-	var result []JsonTreeRoute
+func (Model Routes) GetMenuList(orderBy interface{}) ([]JsonRouteTree, error) {
+	var result []JsonRouteTree
 	// 获取表名
 	tableName := Model.TableName()
 	table := mysql.DB.Table(models.Prefix(tableName))
@@ -80,8 +87,8 @@ func GetRoleTree(data []role.AllRouteList, parentId int, disabled bool) []role.A
 }
 
 // 递归生成菜单结构
-func GetMenuTree(data []JsonTreeRoute, parentId int) []JsonTreeRoute {
-	var listTree []JsonTreeRoute
+func GetMenuTree(data []JsonRouteTree, parentId int) []JsonRouteTree {
+	var listTree []JsonRouteTree
 	for _, val := range data {
 		if val.ParentId == parentId {
 			children := GetMenuTree(data, int(val.Id))

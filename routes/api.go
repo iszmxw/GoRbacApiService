@@ -47,6 +47,10 @@ func RegisterWebRoutes(router *gin.RouterGroup) {
 		Admin.POST("/menus/add", MenusController.CreatedHandler)
 		// 删除菜单路由
 		Admin.POST("/menus/delete", MenusController.DeletedHandler)
+		// 获取路由菜单详细信息
+		Admin.POST("/menus/detail", MenusController.DetailHandler)
+		// 编辑菜单路由
+		Admin.POST("/menus/edit", MenusController.EditHandler)
 		// 获取菜单路由
 		Admin.POST("/menus/list", MenusController.ListHandler)
 	}

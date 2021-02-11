@@ -18,9 +18,8 @@ type JsonRoute struct {
 	DeletedAt gorm.DeletedAt `json:"deleted_at"`
 }
 
-
-// 格式化返回菜单路由节点
-type JsonTreeRoute struct {
+// 格式化返回菜单路由树
+type JsonRouteTree struct {
 	Id        uint64          `json:"id"`
 	Sort      int             `json:"sort"`
 	Type      string          `json:"type"`
@@ -34,5 +33,5 @@ type JsonTreeRoute struct {
 	CreatedAt time.Time       `json:"created_at"`
 	UpdatedAt time.Time       `json:"updated_at"`
 	DeletedAt gorm.DeletedAt  `json:"deleted_at"`
-	Children  []JsonTreeRoute `json:"children" gorm:"-"`
+	Children  []JsonRouteTree `json:"children" gorm:"-"`
 }
