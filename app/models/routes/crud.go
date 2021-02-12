@@ -54,13 +54,13 @@ func (Model Routes) GetRouteList() ([]role.AllRouteList, error) {
 }
 
 // GetMenuList 获取列表数据，返回错误
-func (Model Routes) GetMenuList(orderBy interface{}) ([]JsonRouteTree, error) {
+func (Model Routes) GetMenuList(where interface{}, orderBy interface{}) ([]JsonRouteTree, error) {
 	var result []JsonRouteTree
 	// 获取表名
 	tableName := Model.TableName()
 	table := mysql.DB.Table(models.Prefix(tableName))
 	table = table.Where("deleted_at IS NULL") // 排除软删除记录
-	//table = table.Where("type = ?", "page")
+	table = table.Where(where)
 	table = table.Order(orderBy)
 	if err := table.Scan(&result).Error; err != nil {
 		// 记录错误

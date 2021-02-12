@@ -10,8 +10,9 @@ func ValidateMenuCreate(menu routes.Routes) string {
 	var msg string
 	// 1. 定制认证规则
 	rules := govalidator.MapData{
-		"name":  []string{"required"},
-		"route": []string{"required"},
+		"name":      []string{"required"},
+		"route":     []string{"required"},
+		"component": []string{"required"},
 	}
 
 	// 2. 定制错误消息
@@ -21,6 +22,9 @@ func ValidateMenuCreate(menu routes.Routes) string {
 		},
 		"route": []string{
 			"required:请填写路由地址",
+		},
+		"component": []string{
+			"required:请填写页面文件路径",
 		},
 	}
 

@@ -75,13 +75,20 @@ func (Controller MenusController) EditHandler(c *gin.Context) {
 		utils.SuccessErr(c, 5000, "操作失败！"+err.Error())
 	}
 	utils.Rjson(c, "", "操作成功！")
-
 }
 
 // 菜单列表
 func (Controller MenusController) ListHandler(c *gin.Context) {
 	// 模型获取分页数据
-	result, _ := routes.Routes{}.GetMenuList("sort asc")
+	result, _ := routes.Routes{}.GetMenuList(map[string]interface{}{}, "sort asc")
+	listTree := routes.GetMenuTree(result, 0)
+	utils.Rjson(c, listTree, "查询成功！")
+}
+
+// 登录时获取菜单路由
+func (Controller MenusController) AsyncRoutesHandler(c *gin.Context) {
+	// 模型获取分页数据
+	result, _ := routes.Routes{}.GetMenuList(map[string]interface{}{"type": "page"}, "sort asc")
 	listTree := routes.GetMenuTree(result, 0)
 	utils.Rjson(c, listTree, "查询成功！")
 }

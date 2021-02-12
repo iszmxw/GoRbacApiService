@@ -25,6 +25,7 @@ type JsonRouteTree struct {
 	Type      string          `json:"type"`
 	IsMenu    int             `json:"is_menu"`
 	Route     string          `json:"route"`
+	Component string          `json:"component"`
 	Name      string          `json:"name"`
 	Icon      string          `json:"icon"`
 	ParentId  int             `json:"parent_id"`
