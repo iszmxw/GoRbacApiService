@@ -18,5 +18,5 @@ func main() {
 	// 初始化路由绑定
 	router := bootstrap.SetupRoute()
 	// 启动路由
-	router.Run(fmt.Sprintf(":%s", conf.GetString("app.port")))
+	_ = router.Run(fmt.Sprintf(":%s", conf.GetString("app.port")))
 }
