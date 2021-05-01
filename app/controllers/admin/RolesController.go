@@ -31,7 +31,7 @@ func (RolesController) ListHandler(c *gin.Context) {
 		params.Page = 1
 	}
 	if params.Limit <= 0 {
-		params.Page = 10
+		params.Limit = 10
 	}
 	if len(params.OrderBy) <= 0 {
 		params.OrderBy = "id asc"
