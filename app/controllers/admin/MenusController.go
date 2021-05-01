@@ -11,7 +11,7 @@ import (
 type MenusController struct {
 }
 
-// 创建路由
+// CreatedHandler 创建路由
 func (Controller MenusController) CreatedHandler(c *gin.Context) {
 	// 登录信息
 	auth, _ := c.Get("auth")
@@ -34,7 +34,7 @@ func (Controller MenusController) CreatedHandler(c *gin.Context) {
 
 }
 
-// 删除路由
+// DeletedHandler 删除路由
 func (Controller MenusController) DeletedHandler(c *gin.Context) {
 	// 登录信息
 	_, _ = c.Get("auth")
@@ -47,7 +47,7 @@ func (Controller MenusController) DeletedHandler(c *gin.Context) {
 	utils.Rjson(c, "", "删除成功！")
 }
 
-// 路由详情
+// DetailHandler 路由详情
 func (Controller MenusController) DetailHandler(c *gin.Context) {
 	var (
 		Route routes.Routes
@@ -59,7 +59,7 @@ func (Controller MenusController) DetailHandler(c *gin.Context) {
 	utils.Rjson(c, Route, "查询成功！")
 }
 
-// 编辑菜单路由
+// EditHandler 编辑菜单路由
 func (Controller MenusController) EditHandler(c *gin.Context) {
 	//auth, _ := c.Get("auth")
 	var (
@@ -77,7 +77,7 @@ func (Controller MenusController) EditHandler(c *gin.Context) {
 	utils.Rjson(c, "", "操作成功！")
 }
 
-// 菜单列表
+// ListHandler 菜单列表
 func (Controller MenusController) ListHandler(c *gin.Context) {
 	// 模型获取分页数据
 	result, _ := routes.Routes{}.GetMenuList(map[string]interface{}{}, "sort asc")
@@ -85,7 +85,7 @@ func (Controller MenusController) ListHandler(c *gin.Context) {
 	utils.Rjson(c, listTree, "查询成功！")
 }
 
-// 登录时获取菜单路由
+// AsyncRoutesHandler 登录时获取菜单路由
 func (Controller MenusController) AsyncRoutesHandler(c *gin.Context) {
 	// 模型获取分页数据
 	result, _ := routes.Routes{}.GetMenuList(map[string]interface{}{"type": "page"}, "sort asc")

@@ -26,6 +26,8 @@ func (rm *OperationLog) GetPaginate(accountId uint64, orderBy interface{}, lists
 	table = table.Joins(models.Prefix("left join $prefix_role on $prefix_account.role_id=$prefix_role.id"))
 	table = table.Where(models.Prefix("$prefix_operation_log.account_id = ?"), accountId)
 	table.Count(&lists.Total)
+	// 设置分页参数
+	models.InitPageList(lists)
 	table = table.Order(orderBy)
 	table = table.Offset(int(lists.Offset))
 	table = table.Limit(int(lists.PageSize))
@@ -35,6 +37,4 @@ func (rm *OperationLog) GetPaginate(accountId uint64, orderBy interface{}, lists
 	} else {
 		lists.Data = result
 	}
-	// 设置分页参数
-	models.InitPageList(lists)
 }

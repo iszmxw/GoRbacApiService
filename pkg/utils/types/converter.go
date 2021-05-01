@@ -1,6 +1,9 @@
 package types
 
+// 转换器
 import (
+	"bytes"
+	"encoding/json"
 	"gorbac/pkg/utils/logger"
 	"strconv"
 )
@@ -31,4 +34,15 @@ func Uint2String(str string) int {
 		logger.LogError(err)
 	}
 	return i
+}
+
+// Struct2json Struct转换json
+func Struct2json(value interface{}) string {
+	bs, _ := json.Marshal(value)
+	var out bytes.Buffer
+	err := json.Indent(&out, bs, "", "\t")
+	if err != nil {
+		logger.LogError(err)
+	}
+	return out.String()
 }

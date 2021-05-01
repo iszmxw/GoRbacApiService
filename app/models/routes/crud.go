@@ -70,7 +70,7 @@ func (Model Routes) GetMenuList(where interface{}, orderBy interface{}) ([]JsonR
 	return result, nil
 }
 
-// 递归生成角色路由菜单结构
+// GetRoleTree 递归生成角色路由菜单结构
 func GetRoleTree(data []role.AllRouteList, parentId int, disabled bool) []role.AllRouteList {
 	var listTree []role.AllRouteList
 	for _, val := range data {
@@ -86,7 +86,7 @@ func GetRoleTree(data []role.AllRouteList, parentId int, disabled bool) []role.A
 	return listTree
 }
 
-// 递归生成菜单结构
+// GetMenuTree 递归生成菜单结构
 func GetMenuTree(data []JsonRouteTree, parentId int) []JsonRouteTree {
 	var listTree []JsonRouteTree
 	for _, val := range data {
@@ -108,6 +108,8 @@ func (Model Routes) GetPaginate(_ uint64, orderBy interface{}, lists *models.Pag
 	tableName := Model.TableName()
 	table := mysql.DB.Table(models.Prefix(tableName))
 	table.Count(&lists.Total)
+	// 设置分页参数
+	models.InitPageList(lists)
 	table = table.Order(orderBy)
 	table = table.Offset(int(lists.Offset))
 	table = table.Limit(int(lists.PageSize))
@@ -117,6 +119,4 @@ func (Model Routes) GetPaginate(_ uint64, orderBy interface{}, lists *models.Pag
 	} else {
 		lists.Data = result
 	}
-	// 设置分页参数
-	models.InitPageList(lists)
 }

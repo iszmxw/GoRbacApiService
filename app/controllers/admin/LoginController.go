@@ -13,7 +13,7 @@ import (
 type LoginController struct {
 }
 
-// 登录
+// LoginHandler 登录
 func (Controller LoginController) LoginHandler(c *gin.Context) {
 	// 初始化数据模型结构体
 	params := account.Account{}
@@ -26,7 +26,7 @@ func (Controller LoginController) LoginHandler(c *gin.Context) {
 		return
 	}
 
-	//查询数据库
+	// 查询数据库
 	where := make(map[string]interface{})
 	where["username"] = params.Username
 	res, _ := account.GetOne(where)
@@ -34,7 +34,7 @@ func (Controller LoginController) LoginHandler(c *gin.Context) {
 		utils.SuccessErr(c, 50000, "密码输入错误，请您确认后再试！")
 		return
 	}
-	//登录成功，返回token
+	// 登录成功，返回token
 	t, err := jwt.GetToken(res)
 	if err != nil {
 		utils.SuccessErr(c, 50000, err)
@@ -58,16 +58,16 @@ func (Controller LoginController) LoginHandler(c *gin.Context) {
 		}, "登录成功！")
 		return
 	}
-	//返回数据
+	// 返回数据
 	utils.SuccessErr(c, 50000, "登录失败，请联系管理员！")
 }
 
-// 退出
+// LogoutHandler 退出
 func (Controller LoginController) LogoutHandler(c *gin.Context) {
 	c.JSON(200, gin.H{"code": 20000, "msg": "退出成功"})
 }
 
-// 获取用户信息
+// UserInfoHandler 获取用户信息
 func (Controller LoginController) UserInfoHandler(c *gin.Context) {
 	auth, _ := c.Get("auth")
 	c.JSON(200, gin.H{

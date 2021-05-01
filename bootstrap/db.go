@@ -32,7 +32,7 @@ func SetupDB() {
 
 // 自动迁移
 func migration(db *gorm.DB) {
-	db.AutoMigrate(
+	err := db.AutoMigrate(
 		// Account 管理员表
 		&account.Account{},
 		// LoginLog 登录日志表
@@ -44,4 +44,7 @@ func migration(db *gorm.DB) {
 		// Route 菜单路由节点
 		&routes.Routes{},
 	)
+	if err != nil {
+		return 
+	}
 }

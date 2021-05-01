@@ -12,7 +12,7 @@ import (
 type SystemsController struct {
 }
 
-// 获取登录日志
+// LoginLogHandler 获取登录日志
 func (Controller SystemsController) LoginLogHandler(c *gin.Context) {
 	auth, _ := c.Get("auth")
 	// 接收数据使用的结构体
@@ -35,7 +35,7 @@ func (Controller SystemsController) LoginLogHandler(c *gin.Context) {
 		params.Page = 10
 	}
 	if len(params.OrderBy) <= 0 {
-		params.OrderBy = "id asc"
+		params.OrderBy = "id desc"
 	}
 
 	// 申明要取出的数据结构体
@@ -49,12 +49,12 @@ func (Controller SystemsController) LoginLogHandler(c *gin.Context) {
 	utils.Rjson(c, pageList, "查询成功！")
 }
 
-// 首页统计
+// StatisticsHandler 首页统计
 func (Controller SystemsController) StatisticsHandler(c *gin.Context) {
 	//auth, _ := c.Get("auth")
 }
 
-// 操作日志
+// OperationLogHandler 操作日志
 func (Controller SystemsController) OperationLogHandler(c *gin.Context) {
 	auth, _ := c.Get("auth")
 	// 接收数据使用的结构体
@@ -70,7 +70,7 @@ func (Controller SystemsController) OperationLogHandler(c *gin.Context) {
 	// 绑定接收的 json 数据到结构体中
 	_ = c.ShouldBindJSON(&params)
 	if len(params.OrderBy) <= 0 {
-		params.OrderBy = "id asc"
+		params.OrderBy = "id desc"
 	}
 	// 申明要取出的数据结构体
 	pageList := models.PageList{
@@ -82,7 +82,7 @@ func (Controller SystemsController) OperationLogHandler(c *gin.Context) {
 	utils.Rjson(c, pageList, "查询成功！")
 }
 
-// 修改密码
+// ResetPasswordHandler 修改密码
 func (Controller SystemsController) ResetPasswordHandler(c *gin.Context) {
 
 }

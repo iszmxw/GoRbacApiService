@@ -26,7 +26,7 @@ func (a BaseModel) GetStringID() string {
 	return types.Uint64ToString(a.Id)
 }
 
-// 分页返回数
+// PageList 分页返回数
 type PageList struct {
 	CurrentPage int64       `json:"current_page"`
 	FirstPage   int64       `json:"first_page"`
@@ -37,7 +37,7 @@ type PageList struct {
 	Offset      int64       `json:"-"`
 }
 
-// 设置分页参数
+// InitPageList 设置分页参数
 func InitPageList(lists *PageList) {
 	// 当前页数
 	if lists.CurrentPage <= 0 {
@@ -65,7 +65,7 @@ func InitPageList(lists *PageList) {
 	}
 }
 
-// 置换sql中的表前缀
+// Prefix 置换sql中的表前缀
 func Prefix(str string) string {
 	prefix := config.GetString("database.mysql.prefix")
 	return strings.Replace(str, "$prefix_", prefix, -1)

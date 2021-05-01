@@ -46,6 +46,8 @@ func (Model Role) GetPaginate(accountId uint64, orderBy interface{}, lists *mode
 	tableName := Model.TableName()
 	table := mysql.DB.Table(models.Prefix(tableName))
 	table.Count(&lists.Total)
+	// 设置分页参数
+	models.InitPageList(lists)
 	table = table.Order(orderBy)
 	table = table.Offset(int(lists.Offset))
 	table = table.Limit(int(lists.PageSize))
@@ -55,6 +57,4 @@ func (Model Role) GetPaginate(accountId uint64, orderBy interface{}, lists *mode
 	} else {
 		lists.Data = result
 	}
-	// 设置分页参数
-	models.InitPageList(lists)
 }

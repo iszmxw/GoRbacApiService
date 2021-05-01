@@ -12,7 +12,7 @@ import (
 type RolesController struct {
 }
 
-// 角色列表
+// ListHandler 角色列表
 func (RolesController) ListHandler(c *gin.Context) {
 	auth, _ := c.Get("auth")
 	// 接收数据使用的结构体
@@ -47,7 +47,7 @@ func (RolesController) ListHandler(c *gin.Context) {
 	utils.Rjson(c, pageList, "查询成功！")
 }
 
-// 角色详情
+// DetailHandler 角色详情
 func (RolesController) DetailHandler(c *gin.Context) {
 	auth, _ := c.Get("auth")
 	// 接收数据使用的结构体
@@ -77,17 +77,17 @@ func (RolesController) DetailHandler(c *gin.Context) {
 
 }
 
-// 编辑角色
+// EditHandler 编辑角色
 func (Controller RolesController) EditHandler(c *gin.Context) {
 	//auth, _ := c.Get("auth")
 }
 
-// 创建角色
+// CreatedHandler 创建角色
 func (Controller RolesController) CreatedHandler(c *gin.Context) {
 
 }
 
-// 删除角色
+// DeletedHandler 删除角色
 func (Controller RolesController) DeletedHandler(c *gin.Context) {
 
 }
