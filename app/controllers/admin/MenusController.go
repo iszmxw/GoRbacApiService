@@ -6,13 +6,15 @@ import (
 	"gorbac/app/models/routes"
 	"gorbac/app/validate/admin"
 	"gorbac/pkg/utils"
+	"gorbac/pkg/utils/logger"
 )
 
 type MenusController struct {
 }
 
 // CreatedHandler 创建路由
-func (Controller MenusController) CreatedHandler(c *gin.Context) {
+func (MenusController) CreatedHandler(c *gin.Context) {
+	logger.LogInfo("MenusController.CreatedHandler")
 	// 登录信息
 	auth, _ := c.Get("auth")
 	// 初始化数据模型结构体
@@ -35,7 +37,8 @@ func (Controller MenusController) CreatedHandler(c *gin.Context) {
 }
 
 // DeletedHandler 删除路由
-func (Controller MenusController) DeletedHandler(c *gin.Context) {
+func (MenusController) DeletedHandler(c *gin.Context) {
+	logger.LogInfo("MenusController.DeletedHandler")
 	// 登录信息
 	_, _ = c.Get("auth")
 	var params routes.Routes
@@ -48,7 +51,8 @@ func (Controller MenusController) DeletedHandler(c *gin.Context) {
 }
 
 // DetailHandler 路由详情
-func (Controller MenusController) DetailHandler(c *gin.Context) {
+func (MenusController) DetailHandler(c *gin.Context) {
+	logger.LogInfo("MenusController.DetailHandler")
 	var (
 		Route routes.Routes
 	)
@@ -60,7 +64,8 @@ func (Controller MenusController) DetailHandler(c *gin.Context) {
 }
 
 // EditHandler 编辑菜单路由
-func (Controller MenusController) EditHandler(c *gin.Context) {
+func (MenusController) EditHandler(c *gin.Context) {
+	logger.LogInfo("MenusController.EditHandler")
 	//auth, _ := c.Get("auth")
 	var (
 		Route routes.Routes
@@ -78,7 +83,8 @@ func (Controller MenusController) EditHandler(c *gin.Context) {
 }
 
 // ListHandler 菜单列表
-func (Controller MenusController) ListHandler(c *gin.Context) {
+func (MenusController) ListHandler(c *gin.Context) {
+	logger.LogInfo("MenusController.ListHandler")
 	// 模型获取分页数据
 	result, _ := routes.Routes{}.GetMenuList(map[string]interface{}{}, "sort asc")
 	listTree := routes.GetMenuTree(result, 0)
@@ -86,7 +92,8 @@ func (Controller MenusController) ListHandler(c *gin.Context) {
 }
 
 // AsyncRoutesHandler 登录时获取菜单路由
-func (Controller MenusController) AsyncRoutesHandler(c *gin.Context) {
+func (MenusController) AsyncRoutesHandler(c *gin.Context) {
+	logger.LogInfo("MenusController.AsyncRoutesHandler")
 	// 模型获取分页数据
 	result, _ := routes.Routes{}.GetMenuList(map[string]interface{}{"type": "page"}, "sort asc")
 	listTree := routes.GetMenuTree(result, 0)

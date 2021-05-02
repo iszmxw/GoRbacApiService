@@ -8,13 +8,15 @@ import (
 	"gorbac/app/validate/admin"
 	"gorbac/pkg/jwt"
 	"gorbac/pkg/utils"
+	"gorbac/pkg/utils/logger"
 )
 
 type LoginController struct {
 }
 
 // LoginHandler 登录
-func (Controller LoginController) LoginHandler(c *gin.Context) {
+func (LoginController) LoginHandler(c *gin.Context) {
+	logger.LogInfo("LoginController.LoginHandler")
 	// 初始化数据模型结构体
 	params := account.Account{}
 	// 绑定接收的 json 数据到结构体中
@@ -63,12 +65,13 @@ func (Controller LoginController) LoginHandler(c *gin.Context) {
 }
 
 // LogoutHandler 退出
-func (Controller LoginController) LogoutHandler(c *gin.Context) {
+func (LoginController) LogoutHandler(c *gin.Context) {
+	logger.LogInfo("LoginController.LogoutHandler")
 	c.JSON(200, gin.H{"code": 20000, "msg": "退出成功"})
 }
 
 // UserInfoHandler 获取用户信息
-func (Controller LoginController) UserInfoHandler(c *gin.Context) {
+func (LoginController) UserInfoHandler(c *gin.Context) {
 	auth, _ := c.Get("auth")
 	c.JSON(200, gin.H{
 		"message": "登录成功",

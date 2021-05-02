@@ -45,6 +45,6 @@ func migration(db *gorm.DB) {
 		&routes.Routes{},
 	)
 	if err != nil {
-		return 
+		return
 	}
 }

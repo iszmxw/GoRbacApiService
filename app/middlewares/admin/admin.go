@@ -7,7 +7,7 @@ import (
 	"gorbac/pkg/utils"
 )
 
-// 定义后台中间件
+// Admin 定义后台中间件
 func Admin() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		path := c.FullPath()
@@ -25,7 +25,7 @@ func Admin() gin.HandlerFunc {
 	}
 }
 
-// 检测登录
+// CheckLogin 检测登录
 func CheckLogin(c *gin.Context) {
 	// 获取 "Admin-Token"
 	tokenString := utils.GetParam(c, "Admin-Token")

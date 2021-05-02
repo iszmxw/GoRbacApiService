@@ -3,10 +3,14 @@ package admin
 import (
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
+	"gorbac/pkg/utils/helpers"
+	"gorbac/pkg/utils/logger"
 	"net/http"
 )
 
-// 跨域请求 基于gin官方的
+const DefaultHeader = "Tracking-Id"
+
+// Cors 跨域请求 基于gin官方的
 func Cors() gin.HandlerFunc {
 	config := cors.DefaultConfig()
 	config.AllowMethods = []string{"GET", "POST", "PUT", "PATCH", "DELETE", "HEAD", "OPTIONS"}
@@ -16,7 +20,7 @@ func Cors() gin.HandlerFunc {
 	return cors.New(config)
 }
 
-// 跨域请求 自定义的
+// DiyCors 跨域请求 自定义的
 func DiyCors() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		method := c.Request.Method
@@ -32,6 +36,22 @@ func DiyCors() gin.HandlerFunc {
 		if method == "OPTIONS" {
 			c.AbortWithStatus(http.StatusNoContent)
 		}
+		c.Next()
+	}
+}
+
+// TrackingId Gin 具有默认标头的中间件
+func TrackingId() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		tId := c.GetHeader(DefaultHeader)
+		// 如果不存在，则生成TrackingID
+		if tId == "" {
+			tId = helpers.GetUUID()
+			c.Header(DefaultHeader, tId)
+		}
+		// Set in Context
+		c.Set(DefaultHeader, tId)
+		logger.RequestId = tId
 		c.Next()
 	}
 }

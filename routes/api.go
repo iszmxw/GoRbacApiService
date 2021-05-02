@@ -4,7 +4,6 @@ import (
 	"github.com/gin-gonic/gin"
 	"gorbac/app/controllers/admin"
 	middlewares "gorbac/app/middlewares/admin"
-	"gorbac/pkg/utils/logger"
 )
 
 // RegisterWebRoutes 注册路由
@@ -13,7 +12,6 @@ func RegisterWebRoutes(router *gin.RouterGroup) {
 	// 后台 模块
 	Admin := router.Group("/admin")
 	{
-		logger.LogInfo("后台路由注册")
 		Admin.Use(middlewares.Admin())
 
 		// 登录控制器

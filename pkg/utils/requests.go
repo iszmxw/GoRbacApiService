@@ -3,7 +3,6 @@ package utils
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
-	"gorbac/pkg/utils/logger"
 )
 
 // GetParam 多方面获取一个参数
@@ -22,7 +21,7 @@ func GetParam(c *gin.Context, name string) string {
 		var json map[string]interface{}
 		_ = c.Bind(&json)
 		param = fmt.Sprintf("%v", json[name])
-		logger.LogInfo(fmt.Sprintf("名称是：%v，值是%v", name, param))
+		//fmt.Println(fmt.Sprintf("名称是：%v，值是%v", name, param))
 		if "<nil>" == param {
 			param = ""
 		}

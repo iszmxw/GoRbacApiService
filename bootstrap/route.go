@@ -8,8 +8,10 @@ import (
 
 // SetupRoute 路由初始化
 func SetupRoute() *gin.Engine {
+	gin.SetMode(gin.ReleaseMode)
 	router := gin.Default()
 	router.Use(admin.DiyCors())
+	router.Use(admin.TrackingId())
 	// v1 版本
 	v1 := router.Group("/v1")
 	routes.RegisterWebRoutes(v1)
