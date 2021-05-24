@@ -3,7 +3,6 @@ package admin
 import (
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
-	"gorbac/pkg/utils/helpers"
 	"gorbac/pkg/utils/logger"
 	"net/http"
 )
@@ -41,12 +40,12 @@ func DiyCors() gin.HandlerFunc {
 }
 
 // TrackingId Gin 具有默认标头的中间件
-func TrackingId() gin.HandlerFunc {
+func TrackingId(logId string) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		tId := c.GetHeader(DefaultHeader)
 		// 如果不存在，则生成TrackingID
 		if tId == "" {
-			tId = helpers.GetUUID()
+			tId = logId
 			c.Header(DefaultHeader, tId)
 		}
 		// Set in Context

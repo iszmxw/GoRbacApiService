@@ -17,7 +17,7 @@ type Routes struct {
 	Icon      string `gorm:"type:varchar(255);comment:icon图标" json:"icon"`
 	ParentId  int    `gorm:"type:int(11);not null;default:0;comment:上级id" json:"parent_id" validate:"parent_id"`
 	CreateBy  int    `gorm:"type:int(11);comment:创建者" json:"create_by"`
-	Status    int    `gorm:"type:int(1);default:1;comment:1-已启用    2-未启用" json:"status"`
+	Status    int    `gorm:"type:char(1);comment:1-已启用   0-未启用" json:"status"`
 	models.BaseModelLast
 }
 

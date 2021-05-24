@@ -47,7 +47,20 @@ func Write(i int) {
 }
 
 func main() {
-	for i := 1; i <= 1500; i++ {
-		Write(i)
-	}
+
+	ch := make(chan int)
+
+	fmt.Println(ch)
+
+	go func() {
+		var sum = 0
+		for i := 0; i < 10; i++ {
+			sum += i
+		}
+		ch <- sum
+		ch <- 123
+	}()
+	fmt.Println(<-ch)
+	fmt.Println(<-ch)
+
 }

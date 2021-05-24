@@ -1,6 +1,7 @@
 package admin
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"gorbac/app/models/account"
 	"gorbac/app/models/routes"
@@ -70,12 +71,11 @@ func (MenusController) EditHandler(c *gin.Context) {
 	var (
 		Route routes.Routes
 	)
+	data := make(map[string]interface{}) //注意该结构接受的内容
 	// 绑定接收的 json 数据到结构体中
-	_ = c.ShouldBindJSON(&Route)
-
+	_ = c.BindJSON(&data)
 	// TODO 添加数据检验，后面在添加
-	// 更新数据
-	err := Route.Updates(map[string]interface{}{"id": Route.Id}, &Route)
+	err := Route.Updates(map[string]interface{}{"id": fmt.Sprintf("%+v", data["id"])}, data)
 	if err != nil {
 		utils.SuccessErr(c, 5000, "操作失败！"+err.Error())
 	}

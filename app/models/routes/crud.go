@@ -32,8 +32,8 @@ func (Model Routes) GetDetail(where map[string]interface{}, data *Routes) error 
 }
 
 // Updates 更新数据
-func (Model Routes) Updates(where map[string]interface{}, data *Routes) error {
-	if err := mysql.DB.Debug().Model(&data).Where(where).Updates(data).Error; err != nil {
+func (Model Routes) Updates(where map[string]interface{}, data map[string]interface{}) error {
+	if err := mysql.DB.Debug().Model(Model).Where(where).Updates(data).Error; err != nil {
 		return err
 	}
 	return nil
