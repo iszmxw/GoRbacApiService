@@ -2,65 +2,48 @@ package main
 
 import (
 	"fmt"
-	"log"
-	"os"
-	"time"
+	"io/ioutil"
+	"net/smtp"
+	"strings"
 )
 
-// IsExist 检测文件是否存在
-func IsExist(f string) bool {
-	_, err := os.Stat(f)
-	return err == nil || os.IsExist(err)
-}
-
-// Write 写日志方法
-func Write(i int) {
-	num := fmt.Sprintf("%+v", i)
-	content := "第【" + num + "】次   打印日志快乐时光"
-
-	// 打印日志内容到控制台
-	fmt.Println(content)
-
-	// 获取当天时间
-	today := time.Now().Format("2006-01-02")
-	logName := "logs/" + string(today) + ".log"
-	// 不存在就创建日志文件
-	if !IsExist(logName) {
-		_, err := os.Create(logName) // 创建日志文件
-		if err != nil {
-			// 打印日志 并退出程序
-			log.Fatalln("fail to create " + logName + " file!")
-		}
+func SendToMail(user, sendUserName, password, host, to, subject, body, mailType string) error {
+	hp := strings.Split(host, ":")
+	auth := smtp.PlainAuth("", user, password, hp[0])
+	fmt.Println(fmt.Sprintf("%v", auth))
+	var contentType string
+	if mailType == "html" {
+		contentType = "Content-Type: text/" + mailType + "; charset=UTF-8"
+	} else {
+		contentType = "Content-Type: text/plain" + "; charset=UTF-8"
 	}
-
-	file, err := os.OpenFile(logName, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
-	if err != nil {
-		// 打印日志 并退出程序
-		log.Fatalln("fail to open " + logName + " file!")
-	}
-
-	// 创建logger对象　这种方式会显示触发日志文件行数
-	log.SetFlags(0) // 去除时间前缀
-	loggerFile := log.New(file, "", log.LstdFlags|log.Llongfile)
-	// 打印日志内容到文件
-	loggerFile.Println(content)
+	msg := []byte("To: " + to + "\r\nFrom: " + sendUserName + "<" + user + ">" + "\r\nSubject: " + subject + "\r\n" + contentType + "\r\n\r\n" + body)
+	sendTo := strings.Split(to, ";")
+	err := smtp.SendMail(host, auth, user, sendTo, msg)
+	return err
 }
 
 func main() {
+	user := "mail@54zm.com"
+	password := "zeuknxgyynudbeec"
+	host := "smtp.qq.com:587"
+	to := "442246396@qq.com"
 
-	ch := make(chan int)
+	subject := "使用Golang发送邮件"
 
-	fmt.Println(ch)
-
-	go func() {
-		var sum = 0
-		for i := 0; i < 10; i++ {
-			sum += i
-		}
-		ch <- sum
-		ch <- 123
-	}()
-	fmt.Println(<-ch)
-	fmt.Println(<-ch)
+	html, e := ioutil.ReadFile("theme/001.html") //这个就是读取你的html
+	if e != nil {
+		panic(e)
+	}
+	body := string(html)
+	sendUserName := "GOLANG SEND MAIL" //发送邮件的人名称
+	fmt.Println("send email")
+	err := SendToMail(user, sendUserName, password, host, to, subject, body, "html")
+	if err != nil {
+		fmt.Println("Send mail error!")
+		fmt.Println(err.Error())
+	} else {
+		fmt.Println("Send mail success!")
+	}
 
 }

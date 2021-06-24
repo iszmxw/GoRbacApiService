@@ -55,5 +55,9 @@ func RegisterWebRoutes(router *gin.RouterGroup) {
 		Admin.POST("/menus/list", MenusController.ListHandler)
 		// 登录时获取菜单路由
 		Admin.POST("/menus/async_routes", MenusController.AsyncRoutesHandler)
+
+		// 工具控制器
+		ToolsController := admin.ToolsController{}
+		Admin.POST("/uploads/images", ToolsController.UploadsHandler)
 	}
 }
