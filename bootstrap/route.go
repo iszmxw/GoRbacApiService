@@ -14,6 +14,9 @@ func SetupRoute(logId string) *gin.Engine {
 	router.Use(admin.TrackingId(logId))
 	// v1 版本
 	v1 := router.Group("/v1")
+	router.Any("/", func(context *gin.Context) {
+		context.String(200, "Hello World!")
+	})
 	routes.RegisterWebRoutes(v1)
 	return router
 }

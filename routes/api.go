@@ -22,6 +22,8 @@ func RegisterWebRoutes(router *gin.RouterGroup) {
 		Admin.POST("/user/logout", LoginController.LogoutHandler)
 		// 获取用户信息
 		Admin.POST("/user/info", LoginController.UserInfoHandler)
+		// 获取用户列表
+		Admin.POST("/user/get_list", LoginController.UserListHandler)
 
 		// 系统控制器
 		SystemsController := admin.SystemsController{}

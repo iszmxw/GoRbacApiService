@@ -2,6 +2,7 @@ package account
 
 import (
 	"gorbac/app/models"
+	"gorbac/pkg/config"
 )
 
 // Account 管理员表
@@ -14,4 +15,10 @@ type Account struct {
 	Mobile   string `gorm:"type:varchar(14);comment:手机号码" json:"mobile"`
 	Status   int    `gorm:"type:int(2);not null;default:1;comment:状态1：为正常 -1：为冻结" json:"status"`
 	models.BaseModelLast
+}
+
+func (Account) TableName() string {
+	prefix := config.GetString("database.mysql.prefix")
+	table := "account"
+	return prefix + table
 }
