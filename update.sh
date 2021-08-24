@@ -1,17 +1,27 @@
 #!/bin/sh
 
 echo -e "\033[35m 准备更新代码 \033[0m"
+
+# 读取控制台输入的描述内容
+read descriptions
+# 如果未输入内容，设置默认内容
+if [ ${#descriptions} -gt 0 ]
+then
+   content=$descriptions
+else
+   content="先下拉=>后上传==================更新代码"
+fi
+
+
 # echo -e "\033[32m -------------------------------  git status  ------------------------------- \033[0m"
 # git status
 # echo -e "\033[34m -------------------------------  git add .  -------------------------------- \033[0m"
 git add .
 # echo -e "\033[35m -------------------------------  git commit -m '先下拉=>后上传'  ------------- \033[0m"
-git commit -m '优化后台'
+git commit -m $content
 # echo -e "\033[33m -------------------------------  git pull origin master  ------------------- \033[0m"
-git pull origin master
+git pull
 # echo -e "\033[36m -------------------------------  git push origin master  ------------------- \033[0m"
-git push origin master
+git push
 
 echo -e "\033[35m 结束 \033[0m"
-
-# read
