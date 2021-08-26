@@ -75,13 +75,13 @@ func (LoginController) LogoutHandler(c *gin.Context) {
 func (LoginController) UserInfoHandler(c *gin.Context) {
 	auth, _ := c.Get("auth")
 	c.JSON(200, gin.H{
-		"message": "登录成功",
+		"msg": "登录成功",
 		"code":    20000,
 		"data": gin.H{
 			"roles":        fmt.Sprintf("[%s]", "admin"),
 			"name":         auth.(account.Account).Username,
 			"introduction": auth.(account.Account).Username,
-			"avatar":       "http://blog.54zm.com/style/web/iszmxw_simple_pro/static/images/head.jpg",
+			"avatar":       "https://blog.54zm.com/style/web/iszmxw_simple_pro/static/images/head.jpg",
 		},
 	})
 }
@@ -89,8 +89,8 @@ func (LoginController) UserInfoHandler(c *gin.Context) {
 // UserListHandler 获取用户列表
 func (LoginController) UserListHandler(c *gin.Context) {
 	auth, _ := c.Get("auth")
-	auth_id, _ := c.Get("auth_id")
-	auth_id = auth_id.(uint64)
+	authId, _ := c.Get("auth_id")
+	authId = authId.(uint64)
 
 	// 接收数据使用的结构体
 	type PostParams struct {
