@@ -3,16 +3,18 @@ package admin
 import (
 	"github.com/thedevsaddam/govalidator"
 	"gorbac/app/models/account"
+	"gorbac/pkg/utils/logger"
 )
 
-// ValidateAccount 验证表单，开始验证，并返回一条错误消息
-func ValidateAccount(account *account.Account) string {
+// ValidateAddAccount 验证表单，开始验证，并返回一条错误消息
+func ValidateAddAccount(account *account.Account) string {
 	var msg string
 	// 1. 定制认证规则
 	rules := govalidator.MapData{
 		"username": []string{"required", "between:5,20"},
 		"password": []string{"required", "min:6"},
 	}
+	logger.LogInfo(account)
 
 	// 2. 定制错误消息
 	messages := govalidator.MapData{

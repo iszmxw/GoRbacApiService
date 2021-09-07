@@ -6,6 +6,7 @@ import (
 	"gorbac/app/models"
 	"gorbac/app/models/account"
 	"gorbac/pkg/utils"
+	"gorbac/pkg/utils/logger"
 )
 
 type UserController struct {
@@ -67,4 +68,20 @@ func (UserController) UserListHandler(c *gin.Context) {
 		accountModel.GetPaginate(auth.(account.Account).Id, params.OrderBy, &pageList)
 		utils.Rjson(c, pageList, "查询成功！")
 	}
+}
+
+// UserAddHandler 添加用户
+func (u *UserController) UserAddHandler(c *gin.Context) {
+	reqData := new(account.Account)
+	if err := c.Bind(reqData); err != nil {
+		logger.LogInfo(reqData)
+		utils.SuccessErr(c, 500, "参数格式有误")
+		return
+	}
+	if err := account.Create(reqData); err != nil {
+		logger.LogInfo(reqData)
+		utils.SuccessErr(c, 500, "创建失败")
+		return
+	}
+	utils.Rjson(c, reqData, "ok")
 }

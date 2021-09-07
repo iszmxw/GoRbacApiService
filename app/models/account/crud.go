@@ -7,8 +7,8 @@ import (
 )
 
 // Create 创建账户，通过 User.ID 来判断是否创建成功
-func Create(a Account) (err error) {
-	if err = mysql.DB.Create(&a).Error; err != nil {
+func Create(a *Account) (err error) {
+	if err = mysql.DB.Create(a).Error; err != nil {
 		return err
 	}
 	return nil

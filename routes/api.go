@@ -22,6 +22,8 @@ func RegisterWebRoutes(router *gin.RouterGroup) {
 		Admin.POST("/user/info", AdminGroup.UserController.UserInfoHandler)
 		// 获取用户列表
 		Admin.POST("/user/get_list", AdminGroup.UserController.UserListHandler)
+		// 创建用户
+		Admin.POST("/user/add", AdminGroup.UserController.UserAddHandler)
 
 		// 系统控制器
 		// 首页统计

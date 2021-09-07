@@ -17,9 +17,9 @@ type LoginController struct {
 func (LoginController) LoginHandler(c *gin.Context) {
 	logger.LogInfo("LoginController.LoginHandler")
 	// 初始化数据模型结构体
-	params := account.Account{}
+	params := new(account.Account)
 	// 绑定接收的 json 数据到结构体中
-	_ = c.ShouldBindJSON(&params)
+	_ = c.Bind(params)
 	// 验证器验证
 	msg := admin.ValidateAccount(params)
 	if len(msg) > 0 {
