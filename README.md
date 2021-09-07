@@ -324,8 +324,221 @@
 ### 3、菜单角色
 
 #### 3.1、角色列表
+- 请求地址
+```url
+/v1/admin/roles/list
+```
+- 请求参数
 
-#### 3.2、路由列表
+| 字段名  | 类型   | 说明             |
+| ------- | ------ | ---------------- |
+| page    | int    | 页数             |
+| limit   | int    | 每页获取数据条数 |
+| orderBy | string | 排序             |
+
+```json
+{
+    "page": 1,
+    "limit": 3,
+    "orderBy": "id asc"
+}
+```
+- 返回参数
+
+| 字段名            | 类型       | 说明       |
+| ----------------- | ---------- | ---------- |
+| code              | int        | 错误代码   |
+| data              | object{}   |            |
+| data.current_page | int        | 当前页数   |
+| data.first_page   | int        | 第一页     |
+| data.last_page    | int        | 最后一页   |
+| data.page_size    | int        | 每页条数   |
+| data.total        | int        | 总数据条数 |
+| data.data         | [object{}] | 列表数据   |
+| msg               | string     | 提示信息   |
+
+
+```json
+{
+    "code": 20000,
+    "data": {
+        "current_page": 1,
+        "first_page": 1,
+        "last_page": 2,
+        "page_size": 3,
+        "total": 4,
+        "data": [
+            {
+                "id": 4,
+                "name": "运营部",
+                "routes": "1,37,6,7,19,20,21,10,13,14,4,22,23,24,25,26,5,27,31,32,28,33,29,34,35,30,15,16,17,18,36",
+                "desc": "运营部有用的权限",
+                "created_at": "2021-01-20T21:24:42.11+08:00",
+                "updated_at": "2021-01-20T21:24:42.11+08:00",
+                "deleted_at": null
+            },
+            {
+                "id": 3,
+                "name": "技术部",
+                "routes": "1,37,2,6,7,8,19,20,21,3,9,10,11,12,13,14,4,22,23,24,25,26,5,27,31,32,28,33,29,34,35,30,15,16,17,18,36",
+                "desc": "技术部拥有的权限",
+                "created_at": "2021-01-20T21:24:42.11+08:00",
+                "updated_at": "2021-01-20T21:24:42.11+08:00",
+                "deleted_at": null
+            },
+            {
+                "id": 2,
+                "name": "公司财务",
+                "routes": "1,37,19,20,21,10,13,14,22,23,24,25,5,27,31,32,28,33,41,29,34,35,30,15,16,17,18,36,42,43,38,39,40",
+                "desc": "财务拥有的权限",
+                "created_at": "2021-01-20T21:24:42.11+08:00",
+                "updated_at": "2021-01-20T21:24:42.11+08:00",
+                "deleted_at": null
+            }
+        ]
+    },
+    "msg": "查询成功！"
+}
+```
+---
+
+#### 3.2、角色详情
+
+- 请求地址
+```url
+/v1/admin/roles/routes
+```
+- 请求参数
+
+| 字段名 | 类型 | 说明   |
+| ------ | ---- | ------ |
+| id     | int  | 角色id |
+
+```json
+{
+    "id": 1
+}
+```
+- 返回参数
+
+| 字段名              | 类型       | 说明               |
+| ------------------- | ---------- | ------------------ |
+| code                | int        | 错误代码           |
+| data                | object{}   |                    |
+| data.all_route_list | [object{}] | 所有路由           |
+| data.defaultChecked | [object{}] | 当前角色拥有的路由 |
+| msg                 | string     | 提示信息           |
+
+
+```json
+{
+	"code": 20000,
+	"data": {
+		"all_route_list": [{
+			"id": 1,
+			"is_menu": "1",
+			"name": "系统首页",
+			"parent_id": 0,
+			"disabled": false,
+			"children": [{
+				"id": 8,
+				"is_menu": "1",
+				"name": "首页统计",
+				"parent_id": 1,
+				"disabled": false,
+				"children": null
+			}]
+		}, {
+			"id": 2,
+			"is_menu": "1",
+			"name": "系统管理",
+			"parent_id": 0,
+			"disabled": false,
+			"children": [{
+				"id": 3,
+				"is_menu": "0",
+				"name": "登录日志",
+				"parent_id": 2,
+				"disabled": false,
+				"children": [{
+					"id": 7,
+					"is_menu": "1",
+					"name": "日志列表",
+					"parent_id": 3,
+					"disabled": false,
+					"children": null
+				}]
+			}, {
+				"id": 4,
+				"is_menu": "0",
+				"name": "操作日志",
+				"parent_id": 2,
+				"disabled": false,
+				"children": null
+			}, {
+				"id": 5,
+				"is_menu": "0",
+				"name": "角色权限",
+				"parent_id": 2,
+				"disabled": false,
+				"children": null
+			}, {
+				"id": 6,
+				"is_menu": "0",
+				"name": "菜单配置",
+				"parent_id": 2,
+				"disabled": false,
+				"children": null
+			}, {
+				"id": 12,
+				"is_menu": "1",
+				"name": "日志管理",
+				"parent_id": 2,
+				"disabled": false,
+				"children": null
+			}, {
+				"id": 13,
+				"is_menu": "1",
+				"name": "用户管理",
+				"parent_id": 2,
+				"disabled": false,
+				"children": null
+			}]
+		}, {
+			"id": 9,
+			"is_menu": "1",
+			"name": "公用页面",
+			"parent_id": 0,
+			"disabled": false,
+			"children": [{
+				"id": 10,
+				"is_menu": "1",
+				"name": "404",
+				"parent_id": 9,
+				"disabled": false,
+				"children": null
+			}, {
+				"id": 11,
+				"is_menu": "1",
+				"name": "用户信息",
+				"parent_id": 9,
+				"disabled": false,
+				"children": null
+			}, {
+				"id": 14,
+				"is_menu": "1",
+				"name": "系统设置",
+				"parent_id": 9,
+				"disabled": false,
+				"children": null
+			}]
+		}],
+		"defaultChecked": ["1", "6", "7", "8", "19", "20", "3", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18"]
+	},
+	"msg": "查询成功！"
+}
+```
+---
 
 #### 3.3、菜单列表
 

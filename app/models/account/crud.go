@@ -26,7 +26,7 @@ func GetOne(where map[string]interface{}) (Account, error) {
 
 // GetPaginate 获取分页数据，返回错误
 func (Account Account) GetPaginate(accountId uint64, orderBy interface{}, lists *models.PageList) {
-	var result []JsonAccount
+	result := new([]JsonAccount)
 	// 获取表名
 	tableName := Account.TableName()
 	table := mysql.DB.Debug().Table(models.Prefix(tableName))
