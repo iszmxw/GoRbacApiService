@@ -14,7 +14,7 @@ type MenusController struct {
 }
 
 // CreatedHandler 创建路由
-func (MenusController) CreatedHandler(c *gin.Context) {
+func (h *MenusController) CreatedHandler(c *gin.Context) {
 	logger.LogInfo("MenusController.CreatedHandler")
 	// 登录信息
 	auth, _ := c.Get("auth")
@@ -38,7 +38,7 @@ func (MenusController) CreatedHandler(c *gin.Context) {
 }
 
 // DeletedHandler 删除路由
-func (MenusController) DeletedHandler(c *gin.Context) {
+func (h *MenusController) DeletedHandler(c *gin.Context) {
 	logger.LogInfo("MenusController.DeletedHandler")
 	// 登录信息
 	_, _ = c.Get("auth")
@@ -52,7 +52,7 @@ func (MenusController) DeletedHandler(c *gin.Context) {
 }
 
 // DetailHandler 路由详情
-func (MenusController) DetailHandler(c *gin.Context) {
+func (h *MenusController) DetailHandler(c *gin.Context) {
 	logger.LogInfo("MenusController.DetailHandler")
 	var (
 		Route routes.Routes
@@ -65,7 +65,7 @@ func (MenusController) DetailHandler(c *gin.Context) {
 }
 
 // EditHandler 编辑菜单路由
-func (MenusController) EditHandler(c *gin.Context) {
+func (h *MenusController) EditHandler(c *gin.Context) {
 	logger.LogInfo("MenusController.EditHandler")
 	//auth, _ := c.Get("auth")
 	var (
@@ -83,7 +83,7 @@ func (MenusController) EditHandler(c *gin.Context) {
 }
 
 // ListHandler 菜单列表
-func (MenusController) ListHandler(c *gin.Context) {
+func (h *MenusController) ListHandler(c *gin.Context) {
 	logger.LogInfo("MenusController.ListHandler")
 	// 模型获取分页数据
 	result, _ := routes.Routes{}.GetMenuList(map[string]interface{}{}, "sort asc")
@@ -92,7 +92,7 @@ func (MenusController) ListHandler(c *gin.Context) {
 }
 
 // AsyncRoutesHandler 登录时获取菜单路由
-func (MenusController) AsyncRoutesHandler(c *gin.Context) {
+func (h *MenusController) AsyncRoutesHandler(c *gin.Context) {
 	logger.LogInfo("MenusController.AsyncRoutesHandler")
 	// 模型获取分页数据
 	result, _ := routes.Routes{}.GetMenuList(map[string]interface{}{"type": "page"}, "sort asc")

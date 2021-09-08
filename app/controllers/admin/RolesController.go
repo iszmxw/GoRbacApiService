@@ -14,7 +14,7 @@ type RolesController struct {
 }
 
 // ListHandler 角色列表
-func (RolesController) ListHandler(c *gin.Context) {
+func (h *RolesController) ListHandler(c *gin.Context) {
 	logger.LogInfo("RolesController.ListHandler")
 	auth, _ := c.Get("auth")
 	// 接收数据使用的结构体
@@ -50,7 +50,7 @@ func (RolesController) ListHandler(c *gin.Context) {
 }
 
 // DetailHandler 角色详情
-func (RolesController) DetailHandler(c *gin.Context) {
+func (h *RolesController) DetailHandler(c *gin.Context) {
 	logger.LogInfo("RolesController.DetailHandler")
 	auth, _ := c.Get("auth")
 	// 接收数据使用的结构体
@@ -81,19 +81,19 @@ func (RolesController) DetailHandler(c *gin.Context) {
 }
 
 // EditHandler 编辑角色
-func (RolesController) EditHandler(c *gin.Context) {
+func (h *RolesController) EditHandler(c *gin.Context) {
 	logger.LogInfo("RolesController.EditHandler")
 	//auth, _ := c.Get("auth")
 }
 
 // CreatedHandler 创建角色
-func (RolesController) CreatedHandler(c *gin.Context) {
+func (h *RolesController) CreatedHandler(c *gin.Context) {
 	logger.LogInfo("RolesController.CreatedHandler")
 
 }
 
 // DeletedHandler 删除角色
-func (RolesController) DeletedHandler(c *gin.Context) {
+func (h *RolesController) DeletedHandler(c *gin.Context) {
 	logger.LogInfo("RolesController.DeletedHandler")
 
 }

@@ -13,7 +13,7 @@ type UserController struct {
 }
 
 // UserInfoHandler 获取用户信息
-func (*UserController) UserInfoHandler(c *gin.Context) {
+func (h *UserController) UserInfoHandler(c *gin.Context) {
 	auth, _ := c.Get("auth")
 	c.JSON(200, gin.H{
 		"msg":  "登录成功",
@@ -28,7 +28,7 @@ func (*UserController) UserInfoHandler(c *gin.Context) {
 }
 
 // UserListHandler 获取用户列表
-func (UserController) UserListHandler(c *gin.Context) {
+func (h *UserController) UserListHandler(c *gin.Context) {
 	auth, _ := c.Get("auth")
 	authId, _ := c.Get("auth_id")
 	authId = authId.(uint64)
@@ -71,7 +71,7 @@ func (UserController) UserListHandler(c *gin.Context) {
 }
 
 // UserAddHandler 添加用户
-func (u *UserController) UserAddHandler(c *gin.Context) {
+func (h *UserController) UserAddHandler(c *gin.Context) {
 	reqData := new(account.Account)
 	if err := c.Bind(reqData); err != nil {
 		logger.LogInfo(reqData)

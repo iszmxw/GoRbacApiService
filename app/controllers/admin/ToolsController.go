@@ -11,7 +11,7 @@ type ToolsController struct {
 }
 
 // UploadsHandler 上传文件
-func (ToolsController) UploadsHandler(c *gin.Context) {
+func (h *ToolsController) UploadsHandler(c *gin.Context) {
 	// 单文件
 	file, _ := c.FormFile("file")
 	logger.LogInfo(file.Filename)

@@ -14,7 +14,7 @@ type SystemsController struct {
 }
 
 // LoginLogHandler 获取登录日志
-func (SystemsController) LoginLogHandler(c *gin.Context) {
+func (h *SystemsController) LoginLogHandler(c *gin.Context) {
 	logger.LogInfo("SystemsController.LoginLogHandler")
 	auth, _ := c.Get("auth")
 	// 接收数据使用的结构体
@@ -52,13 +52,13 @@ func (SystemsController) LoginLogHandler(c *gin.Context) {
 }
 
 // StatisticsHandler 首页统计
-func (SystemsController) StatisticsHandler(c *gin.Context) {
+func (h *SystemsController) StatisticsHandler(c *gin.Context) {
 	logger.LogInfo("SystemsController.StatisticsHandler")
 	//auth, _ := c.Get("auth")
 }
 
 // OperationLogHandler 操作日志
-func (SystemsController) OperationLogHandler(c *gin.Context) {
+func (h *SystemsController) OperationLogHandler(c *gin.Context) {
 	logger.LogInfo("SystemsController.OperationLogHandler")
 	auth, _ := c.Get("auth")
 	// 接收数据使用的结构体
@@ -89,5 +89,4 @@ func (SystemsController) OperationLogHandler(c *gin.Context) {
 // ResetPasswordHandler 修改密码
 func (SystemsController) ResetPasswordHandler(c *gin.Context) {
 	logger.LogInfo("SystemsController.ResetPasswordHandler")
-
 }
