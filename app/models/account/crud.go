@@ -7,8 +7,16 @@ import (
 )
 
 // Create 创建账户，通过 User.ID 来判断是否创建成功
-func Create(a *Account) (err error) {
-	if err = mysql.DB.Create(a).Error; err != nil {
+func Create(m *Account) (err error) {
+	if err = mysql.DB.Create(m).Error; err != nil {
+		return err
+	}
+	return nil
+}
+
+// Delete 删除账户
+func (m *Account) Delete(where map[string]interface{}) (err error) {
+	if err = mysql.DB.Debug().Where(where).Delete(&Account{}).Error; err != nil {
 		return err
 	}
 	return nil
@@ -25,10 +33,10 @@ func GetOne(where map[string]interface{}) (Account, error) {
 }
 
 // GetPaginate 获取分页数据，返回错误
-func (Account Account) GetPaginate(accountId uint64, orderBy interface{}, lists *models.PageList) {
+func (m Account) GetPaginate(accountId uint64, orderBy interface{}, lists *models.PageList) {
 	result := new([]JsonAccount)
 	// 获取表名
-	tableName := Account.TableName()
+	tableName := m.TableName()
 	table := mysql.DB.Debug().Table(models.Prefix(tableName))
 	table = table.Select(models.Prefix("$prefix_account.*,$prefix_role.name as role_name"))
 	table = table.Joins(models.Prefix("left join $prefix_role on $prefix_role.id=$prefix_account.role_id"))
