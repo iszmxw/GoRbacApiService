@@ -11,6 +11,7 @@ import (
 )
 
 type RolesController struct {
+	BaseController
 }
 
 // ListHandler 角色列表

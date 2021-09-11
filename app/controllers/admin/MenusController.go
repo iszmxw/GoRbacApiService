@@ -11,6 +11,7 @@ import (
 )
 
 type MenusController struct {
+	BaseController
 }
 
 // CreatedHandler 创建路由
@@ -29,7 +30,7 @@ func (h *MenusController) CreatedHandler(c *gin.Context) {
 		return
 	}
 	params.CreateBy = int(auth.(account.Account).Id)
-	err := routes.Routes{}.Create(params)
+	err := new(routes.Routes).Create(&params)
 	if err != nil {
 		utils.SuccessErr(c, 50000, err.Error())
 	}
@@ -44,7 +45,7 @@ func (h *MenusController) DeletedHandler(c *gin.Context) {
 	_, _ = c.Get("auth")
 	var params routes.Routes
 	_ = c.BindJSON(&params)
-	err := routes.Routes{}.Delete(params)
+	err := new(routes.Routes).Delete(params)
 	if err != nil {
 		utils.SuccessErr(c, 50000, err.Error())
 	}
@@ -86,7 +87,7 @@ func (h *MenusController) EditHandler(c *gin.Context) {
 func (h *MenusController) ListHandler(c *gin.Context) {
 	logger.LogInfo("MenusController.ListHandler")
 	// 模型获取分页数据
-	result, _ := routes.Routes{}.GetMenuList(map[string]interface{}{}, "sort asc")
+	result, _ := new(routes.Routes).GetMenuList(map[string]interface{}{}, "sort asc")
 	listTree := routes.GetMenuTree(result, 0)
 	utils.Rjson(c, listTree, "查询成功！")
 }
@@ -95,7 +96,7 @@ func (h *MenusController) ListHandler(c *gin.Context) {
 func (h *MenusController) AsyncRoutesHandler(c *gin.Context) {
 	logger.LogInfo("MenusController.AsyncRoutesHandler")
 	// 模型获取分页数据
-	result, _ := routes.Routes{}.GetMenuList(map[string]interface{}{"type": "page"}, "sort asc")
+	result, _ := new(routes.Routes).GetMenuList(map[string]interface{}{"type": "page"}, "sort asc")
 	listTree := routes.GetMenuTree(result, 0)
 	utils.Rjson(c, listTree, "查询成功！")
 }

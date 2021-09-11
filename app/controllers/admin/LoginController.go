@@ -11,6 +11,7 @@ import (
 )
 
 type LoginController struct {
+	BaseController
 }
 
 // LoginHandler 登录

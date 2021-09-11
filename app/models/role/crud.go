@@ -9,7 +9,7 @@ import (
 )
 
 // Create 创建角色，通过 Role.ID 来判断是否创建成功
-func (Model Role) Create(a Role) (err error) {
+func (m *Role) Create(a Role) (err error) {
 	if err = mysql.DB.Create(&a).Error; err != nil {
 		return err
 	}
@@ -17,7 +17,7 @@ func (Model Role) Create(a Role) (err error) {
 }
 
 // GetOne 获取一条数据
-func (Model Role) GetOne(where map[string]interface{}) (Role, error) {
+func (m *Role) GetOne(where map[string]interface{}) (Role, error) {
 	var role Role
 	if err := mysql.DB.Where(where).First(&role).Error; err != nil {
 		return role, err
@@ -26,11 +26,11 @@ func (Model Role) GetOne(where map[string]interface{}) (Role, error) {
 }
 
 // GetValue 获取一条角色详情
-func (Model Role) GetValue(Id uint64) (interface{}, error) {
+func (m *Role) GetValue(Id uint64) (interface{}, error) {
 	var result []string
 	var routes string
 	// 获取表名
-	tableName := Model.TableName()
+	tableName := m.TableName()
 	table := mysql.DB.Table(models.Prefix(tableName))
 	table = table.Where(models.Prefix("$prefix_role.id =" + strconv.FormatUint(Id, 10)))
 	table = table.Select(models.Prefix("$prefix_role.routes"))
@@ -40,10 +40,10 @@ func (Model Role) GetValue(Id uint64) (interface{}, error) {
 }
 
 // GetPaginate 获取分页数据，返回错误
-func (Model Role) GetPaginate(accountId uint64, orderBy interface{}, lists *models.PageList) {
+func (m *Role) GetPaginate(accountId uint64, orderBy interface{}, lists *models.PageList) {
 	var result []JsonRole
 	// 获取表名
-	tableName := Model.TableName()
+	tableName := m.TableName()
 	table := mysql.DB.Table(models.Prefix(tableName))
 	table.Count(&lists.Total)
 	// 设置分页参数

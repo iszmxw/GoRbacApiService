@@ -10,6 +10,7 @@ import (
 )
 
 type UserController struct {
+	BaseController
 }
 
 // UserInfoHandler 获取用户信息

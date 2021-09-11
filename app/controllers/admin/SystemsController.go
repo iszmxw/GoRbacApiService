@@ -11,6 +11,7 @@ import (
 )
 
 type SystemsController struct {
+	BaseController
 }
 
 // LoginLogHandler 获取登录日志

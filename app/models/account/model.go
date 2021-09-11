@@ -3,7 +3,15 @@ package account
 import (
 	"gorbac/app/models"
 	"gorbac/pkg/config"
+	"gorbac/pkg/utils/times"
+	"gorm.io/gorm"
 )
+
+func (m *Account) TableName() string {
+	prefix := config.GetString("database.mysql.prefix")
+	table := "account"
+	return prefix + table
+}
 
 // Account 管理员表
 type Account struct {
@@ -17,8 +25,18 @@ type Account struct {
 	models.BaseModelLast
 }
 
-func (Account) TableName() string {
-	prefix := config.GetString("database.mysql.prefix")
-	table := "account"
-	return prefix + table
+// json 响应结构体定义，供查询数据引用
+
+// JsonAccount 格式化返回登录日志
+type JsonAccount struct {
+	Id        uint64         `json:"id"`
+	Username  string         `json:"username"`
+	Level     int            `json:"level"`
+	RoleId    int            `json:"role_id"`
+	RoleName  string         `json:"role_name"`
+	Mobile    string         `json:"mobile"`
+	Status    int            `json:"status"`
+	CreatedAt times.MyTime   `json:"created_at"`
+	UpdatedAt times.MyTime   `json:"updated_at"`
+	DeletedAt gorm.DeletedAt `json:"deleted_at"`
 }

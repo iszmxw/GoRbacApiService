@@ -8,6 +8,7 @@ import (
 )
 
 type ToolsController struct {
+	BaseController
 }
 
 // UploadsHandler 上传文件

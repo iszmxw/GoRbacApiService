@@ -8,15 +8,15 @@ import (
 )
 
 // Create 创建菜单路由节点
-func (Model Routes) Create(a Routes) (err error) {
-	if err = mysql.DB.Create(&a).Error; err != nil {
+func (m *Routes) Create(a *Routes) (err error) {
+	if err = mysql.DB.Create(a).Error; err != nil {
 		return err
 	}
 	return nil
 }
 
 // Delete 删除菜单路由节点
-func (Model Routes) Delete(a Routes) (err error) {
+func (m *Routes) Delete(a Routes) (err error) {
 	if err = mysql.DB.Debug().Delete(&a).Error; err != nil {
 		return err
 	}
@@ -24,7 +24,7 @@ func (Model Routes) Delete(a Routes) (err error) {
 }
 
 // GetDetail 获取一条数据详情
-func (Model Routes) GetDetail(where map[string]interface{}, data *Routes) error {
+func (m *Routes) GetDetail(where map[string]interface{}, data *Routes) error {
 	if err := mysql.DB.Debug().Where(where).First(&data).Error; err != nil {
 		return err
 	}
@@ -32,17 +32,17 @@ func (Model Routes) GetDetail(where map[string]interface{}, data *Routes) error 
 }
 
 // Updates 更新数据
-func (Model Routes) Updates(where map[string]interface{}, data map[string]interface{}) error {
-	if err := mysql.DB.Debug().Model(Model).Where(where).Updates(data).Error; err != nil {
+func (m *Routes) Updates(where map[string]interface{}, data map[string]interface{}) error {
+	if err := mysql.DB.Debug().Model(m).Where(where).Updates(data).Error; err != nil {
 		return err
 	}
 	return nil
 }
 
 // GetRouteList 获取角色路由数据列表
-func (Model Routes) GetRouteList() ([]role.AllRouteList, error) {
+func (m *Routes) GetRouteList() ([]role.AllRouteList, error) {
 	var result []role.AllRouteList
-	tableName := Model.TableName()
+	tableName := m.TableName()
 	table := mysql.DB.Table(models.Prefix(tableName))
 	table = table.Select(models.Prefix("id,is_menu,name,parent_id"))
 	if err := table.Scan(&result).Error; err != nil {
@@ -54,10 +54,10 @@ func (Model Routes) GetRouteList() ([]role.AllRouteList, error) {
 }
 
 // GetMenuList 获取列表数据，返回错误
-func (Model Routes) GetMenuList(where interface{}, orderBy interface{}) ([]JsonRouteTree, error) {
+func (m *Routes) GetMenuList(where interface{}, orderBy interface{}) ([]JsonRouteTree, error) {
 	var result []JsonRouteTree
 	// 获取表名
-	tableName := Model.TableName()
+	tableName := m.TableName()
 	table := mysql.DB.Table(models.Prefix(tableName))
 	table = table.Where("deleted_at IS NULL") // 排除软删除记录
 	table = table.Where(where)
@@ -102,10 +102,10 @@ func GetMenuTree(data []JsonRouteTree, parentId int) []JsonRouteTree {
 }
 
 // GetPaginate 获取分页数据，返回错误
-func (Model Routes) GetPaginate(_ uint64, orderBy interface{}, lists *models.PageList) {
+func (m *Routes) GetPaginate(_ uint64, orderBy interface{}, lists *models.PageList) {
 	var result []JsonRoute
 	// 获取表名
-	tableName := Model.TableName()
+	tableName := m.TableName()
 	table := mysql.DB.Table(models.Prefix(tableName))
 	table.Count(&lists.Total)
 	// 设置分页参数

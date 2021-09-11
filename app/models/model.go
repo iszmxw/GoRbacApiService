@@ -22,8 +22,8 @@ type BaseModelLast struct {
 }
 
 // GetStringID 获取 ID 的字符串格式
-func (a BaseModel) GetStringID() string {
-	return types.Uint64ToString(a.Id)
+func (m *BaseModel) GetStringID() string {
+	return types.Uint64ToString(m.Id)
 }
 
 // PageList 分页返回数
