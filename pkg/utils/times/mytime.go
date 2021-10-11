@@ -15,7 +15,6 @@ func (t *MyTime) UnmarshalJSON(data []byte) error {
 	if string(data) == "null" {
 		return nil
 	}
-	var err error
 	//前端接收的时间字符串
 	str := string(data)
 	//去除接收的str收尾多余的"

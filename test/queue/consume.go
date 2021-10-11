@@ -1,28 +1,69 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"io"
 	"io/ioutil"
 	"net/http"
+	"os"
+	"strconv"
 	"time"
 )
+
 // consume
-const (
-	testUrl           = "https://blog.54zm.com/mp3"
-	proUrl            = "https://wxapp.yidaogz.cn/app/index.php?c=entry&a=wxapp&i=2&m=lingchi_b11&do=LuckSponsor&action=lottery_redis"
-	routineCountTotal = 10 // 限制线程数
+var (
+	Site              string // 站点ID
+	Url               string // 站点Url
+	RoutineCountTotal string // 限制线程数
 )
 
+func help() {
+	fmt.Println("======================help=========================")
+	fmt.Println("")
+	fmt.Println("")
+	fmt.Println("Tips：该脚本为异步消费工具...")
+	fmt.Println("Please：请输入参数：")
+	fmt.Println("Eg：./consume 2 10 ")
+	fmt.Println("")
+	fmt.Println("以上表示启动站点 uniacid=2 的消费进程，开启十条")
+	fmt.Println("")
+	fmt.Println("")
+	fmt.Println("======================help=========================")
+}
+
+func Args() error {
+	args := os.Args
+	if len(args) < 2 || args == nil || args[1] == "" || args[2] == "" {
+		help()
+		return errors.New("请检查参数")
+	}
+	Site = args[1]
+	RoutineCountTotal = args[2]
+	Url = "https://wxapp.yidaogz.cn/app/index.php?c=entry&a=wxapp&i=" + Site + "&m=lingchi_b11&do=LuckSponsor&action=lottery_redis"
+	fmt.Printf("启动的站点id为：%v\n", Site)
+	fmt.Printf("消费的Url地址为：%v\n", Url)
+	fmt.Printf("开启线程数为：%v\n", RoutineCountTotal)
+	return nil
+}
+
 func main() {
+	if err := Args(); err != nil {
+		fmt.Println(err.Error())
+		return
+	}
 	for true {
-		syncConsume(routineCountTotal)
-		fmt.Println("异步消费10条结束")
+		num, err := strconv.Atoi(RoutineCountTotal)
+		if err != nil {
+			fmt.Println("开启线程数异常")
+		}
+		syncConsume(num)
+		fmt.Printf("异步消费%v条结束\n", num)
 	}
 }
 
 func httpGet(now string) {
-	resp, err := http.Get(proUrl)
+	resp, err := http.Get(Url)
 	fmt.Printf("当前请求时间：%v\n", now)
 	if err != nil {
 		// handle error

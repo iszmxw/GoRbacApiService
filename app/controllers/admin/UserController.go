@@ -75,6 +75,7 @@ func (h *UserController) UserListHandler(c *gin.Context) {
 func (h *UserController) UserAddHandler(c *gin.Context) {
 	reqData := new(account.Account)
 	// todo 数据验证
+
 	if err := c.Bind(reqData); err != nil {
 		logger.LogInfo(reqData)
 		utils.SuccessErr(c, 500, "参数格式有误")

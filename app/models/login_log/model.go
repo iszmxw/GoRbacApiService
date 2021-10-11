@@ -3,8 +3,7 @@ package login_log
 import (
 	"gorbac/app/models"
 	"gorbac/pkg/config"
-	"gorm.io/gorm"
-	"time"
+	"gorbac/pkg/utils/times"
 )
 
 func (m *LoginLog) TableName() string {
@@ -29,15 +28,15 @@ type LoginLog struct {
 
 // JsonLoginLog 格式化返回登录日志
 type JsonLoginLog struct {
-	Id        uint64         `json:"id"`
-	AccountId uint64         `json:"account_id"`
-	Type      int            `json:"type"`
-	Username  string         `json:"username"`
-	RoleId    int            `json:"role_id"`
-	RoleName  string         `json:"role_name"`
-	Ip        string         `json:"ip"`
-	Address   string         `json:"address"`
-	CreatedAt time.Time      `json:"created_at"`
-	UpdatedAt time.Time      `json:"updated_at"`
-	DeletedAt gorm.DeletedAt `json:"deleted_at"`
+	Id        uint64           `json:"id"`
+	AccountId uint64           `json:"account_id"`
+	Type      int              `json:"type"`
+	Username  string           `json:"username"`
+	RoleId    int              `json:"role_id"`
+	RoleName  string           `json:"role_name"`
+	Ip        string           `json:"ip"`
+	Address   string           `json:"address"`
+	CreatedAt times.TimeNormal `json:"created_at"`
+	UpdatedAt times.TimeNormal `json:"updated_at"`
+	DeletedAt times.TimeNormal `json:"deleted_at"`
 }
