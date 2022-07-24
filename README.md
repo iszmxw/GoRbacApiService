@@ -1,6 +1,9 @@
 # GoRbacApiService
 一个可以自动构建CURD控制器的go-api服务，并预设RBAC权限功能
 
+# 1、打包api接口
+GOOS=linux GOARCH=amd64 go build -o build/rbacApiService main.go
+
 ## 引入的库
 
 > [gin-gonic/gin](https://github.com/gin-gonic/gin)   【Gin框架】
