@@ -6,6 +6,7 @@ import (
 	"gorbac/app/models/account"
 	"gorbac/app/models/role"
 	"gorbac/app/models/routes"
+	"gorbac/app/response"
 	"gorbac/pkg/utils"
 	"gorbac/pkg/utils/logger"
 )
@@ -16,7 +17,7 @@ type RolesController struct {
 
 // ListHandler 角色列表
 func (h *RolesController) ListHandler(c *gin.Context) {
-	logger.LogInfo("RolesController.ListHandler")
+	logger.Info("RolesController.ListHandler")
 	auth, _ := c.Get("auth")
 	// 接收数据使用的结构体
 	type PostParams struct {
@@ -52,7 +53,7 @@ func (h *RolesController) ListHandler(c *gin.Context) {
 
 // DetailHandler 角色详情
 func (h *RolesController) DetailHandler(c *gin.Context) {
-	logger.LogInfo("RolesController.DetailHandler")
+	logger.Info("RolesController.DetailHandler")
 	auth, _ := c.Get("auth")
 	// 接收数据使用的结构体
 	type PostParams struct {
@@ -63,8 +64,8 @@ func (h *RolesController) DetailHandler(c *gin.Context) {
 		disabled     bool
 		Role         role.Role
 		Routes       routes.Routes
-		result       role.JsonRoleDetail
-		AllRouteList []role.AllRouteList
+		result       response.JsonRoleDetail
+		AllRouteList []response.AllRouteList
 	)
 	// 绑定接收的 json 数据到结构体中
 	_ = c.ShouldBindJSON(&params)
@@ -83,18 +84,18 @@ func (h *RolesController) DetailHandler(c *gin.Context) {
 
 // EditHandler 编辑角色
 func (h *RolesController) EditHandler(c *gin.Context) {
-	logger.LogInfo("RolesController.EditHandler")
+	logger.Info("RolesController.EditHandler")
 	//auth, _ := c.Get("auth")
 }
 
 // CreatedHandler 创建角色
 func (h *RolesController) CreatedHandler(c *gin.Context) {
-	logger.LogInfo("RolesController.CreatedHandler")
+	logger.Info("RolesController.CreatedHandler")
 
 }
 
 // DeletedHandler 删除角色
 func (h *RolesController) DeletedHandler(c *gin.Context) {
-	logger.LogInfo("RolesController.DeletedHandler")
+	logger.Info("RolesController.DeletedHandler")
 
 }

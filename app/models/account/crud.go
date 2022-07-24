@@ -2,6 +2,7 @@ package account
 
 import (
 	"gorbac/app/models"
+	"gorbac/app/response"
 	"gorbac/pkg/mysql"
 	"gorbac/pkg/utils/logger"
 )
@@ -34,7 +35,7 @@ func GetOne(where map[string]interface{}) (Account, error) {
 
 // GetPaginate 获取分页数据，返回错误
 func (m Account) GetPaginate(accountId uint64, orderBy interface{}, lists *models.PageList) {
-	result := new([]JsonAccount)
+	result := new([]response.JsonAccount)
 	// 获取表名
 	tableName := m.TableName()
 	table := mysql.DB.Debug().Table(models.Prefix(tableName))
@@ -51,7 +52,7 @@ func (m Account) GetPaginate(accountId uint64, orderBy interface{}, lists *model
 	table = table.Limit(int(lists.PageSize))
 	if err := table.Scan(&result).Error; err != nil {
 		// 记录错误
-		logger.LogError(err)
+		logger.Error(err)
 	} else {
 		lists.Data = result
 	}

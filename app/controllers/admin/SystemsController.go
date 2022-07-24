@@ -16,7 +16,7 @@ type SystemsController struct {
 
 // LoginLogHandler 获取登录日志
 func (h *SystemsController) LoginLogHandler(c *gin.Context) {
-	logger.LogInfo("SystemsController.LoginLogHandler")
+	logger.Info("SystemsController.LoginLogHandler")
 	auth, _ := c.Get("auth")
 	// 接收数据使用的结构体
 	type PostParams struct {
@@ -54,13 +54,13 @@ func (h *SystemsController) LoginLogHandler(c *gin.Context) {
 
 // StatisticsHandler 首页统计
 func (h *SystemsController) StatisticsHandler(c *gin.Context) {
-	logger.LogInfo("SystemsController.StatisticsHandler")
+	logger.Info("SystemsController.StatisticsHandler")
 	//auth, _ := c.Get("auth")
 }
 
 // OperationLogHandler 操作日志
 func (h *SystemsController) OperationLogHandler(c *gin.Context) {
-	logger.LogInfo("SystemsController.OperationLogHandler")
+	logger.Info("SystemsController.OperationLogHandler")
 	auth, _ := c.Get("auth")
 	// 接收数据使用的结构体
 	type PostParams struct {
@@ -89,5 +89,5 @@ func (h *SystemsController) OperationLogHandler(c *gin.Context) {
 
 // ResetPasswordHandler 修改密码
 func (SystemsController) ResetPasswordHandler(c *gin.Context) {
-	logger.LogInfo("SystemsController.ResetPasswordHandler")
+	logger.Info("SystemsController.ResetPasswordHandler")
 }

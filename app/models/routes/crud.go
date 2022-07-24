@@ -2,7 +2,7 @@ package routes
 
 import (
 	"gorbac/app/models"
-	"gorbac/app/models/role"
+	"gorbac/app/response"
 	"gorbac/pkg/mysql"
 	"gorbac/pkg/utils/logger"
 )
@@ -40,22 +40,22 @@ func (m *Routes) Updates(where map[string]interface{}, data map[string]interface
 }
 
 // GetRouteList 获取角色路由数据列表
-func (m *Routes) GetRouteList() ([]role.AllRouteList, error) {
-	var result []role.AllRouteList
+func (m *Routes) GetRouteList() ([]response.AllRouteList, error) {
+	var result []response.AllRouteList
 	tableName := m.TableName()
 	table := mysql.DB.Table(models.Prefix(tableName))
 	table = table.Select(models.Prefix("id,is_menu,name,parent_id"))
 	if err := table.Scan(&result).Error; err != nil {
 		// 记录错误
-		logger.LogError(err)
+		logger.Error(err)
 		return result, err
 	}
 	return result, nil
 }
 
 // GetMenuList 获取列表数据，返回错误
-func (m *Routes) GetMenuList(where interface{}, orderBy interface{}) ([]JsonRouteTree, error) {
-	var result []JsonRouteTree
+func (m *Routes) GetMenuList(where interface{}, orderBy interface{}) ([]response.JsonRouteTree, error) {
+	var result []response.JsonRouteTree
 	// 获取表名
 	tableName := m.TableName()
 	table := mysql.DB.Table(models.Prefix(tableName))
@@ -64,15 +64,15 @@ func (m *Routes) GetMenuList(where interface{}, orderBy interface{}) ([]JsonRout
 	table = table.Order(orderBy)
 	if err := table.Scan(&result).Error; err != nil {
 		// 记录错误
-		logger.LogError(err)
+		logger.Error(err)
 		return nil, err
 	}
 	return result, nil
 }
 
 // GetRoleTree 递归生成角色路由菜单结构
-func GetRoleTree(data []role.AllRouteList, parentId int, disabled bool) []role.AllRouteList {
-	var listTree []role.AllRouteList
+func GetRoleTree(data []response.AllRouteList, parentId int, disabled bool) []response.AllRouteList {
+	var listTree []response.AllRouteList
 	for _, val := range data {
 		val.Disabled = disabled
 		if val.ParentId == parentId {
@@ -87,8 +87,8 @@ func GetRoleTree(data []role.AllRouteList, parentId int, disabled bool) []role.A
 }
 
 // GetMenuTree 递归生成菜单结构
-func GetMenuTree(data []JsonRouteTree, parentId int) []JsonRouteTree {
-	var listTree []JsonRouteTree
+func GetMenuTree(data []response.JsonRouteTree, parentId int) []response.JsonRouteTree {
+	var listTree []response.JsonRouteTree
 	for _, val := range data {
 		if val.ParentId == parentId {
 			children := GetMenuTree(data, int(val.Id))
@@ -103,7 +103,7 @@ func GetMenuTree(data []JsonRouteTree, parentId int) []JsonRouteTree {
 
 // GetPaginate 获取分页数据，返回错误
 func (m *Routes) GetPaginate(_ uint64, orderBy interface{}, lists *models.PageList) {
-	var result []JsonRoute
+	var result []response.JsonRoute
 	// 获取表名
 	tableName := m.TableName()
 	table := mysql.DB.Table(models.Prefix(tableName))
@@ -115,7 +115,7 @@ func (m *Routes) GetPaginate(_ uint64, orderBy interface{}, lists *models.PageLi
 	table = table.Limit(int(lists.PageSize))
 	if err := table.Scan(&result).Error; err != nil {
 		// 记录错误
-		logger.LogError(err)
+		logger.Error(err)
 	} else {
 		lists.Data = result
 	}

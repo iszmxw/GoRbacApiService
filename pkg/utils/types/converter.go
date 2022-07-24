@@ -22,7 +22,7 @@ func Uint64ToString(num uint64) string {
 func StringToInt(str string) int {
 	i, err := strconv.Atoi(str)
 	if err != nil {
-		logger.LogError(err)
+		logger.Error(err)
 	}
 	return i
 }
@@ -31,7 +31,7 @@ func StringToInt(str string) int {
 func Uint2String(str string) int {
 	i, err := strconv.Atoi(str)
 	if err != nil {
-		logger.LogError(err)
+		logger.Error(err)
 	}
 	return i
 }
@@ -42,7 +42,7 @@ func Struct2json(value interface{}) string {
 	var out bytes.Buffer
 	err := json.Indent(&out, bs, "", "\t")
 	if err != nil {
-		logger.LogError(err)
+		logger.Error(err)
 	}
 	return out.String()
 }

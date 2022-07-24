@@ -9,12 +9,12 @@ func init() {
 	config.Add("database", config.StrMap{
 		"mysql": map[string]interface{}{
 			// 数据库连接信息
-			"host":     config.Env("DB_HOST", "127.0.0.1"),
-			"port":     config.Env("DB_PORT", "3306"),
+			"host":     config.Env("DB_HOST", "13.57.227.200"),
+			"port":     config.Env("DB_PORT", "3307"),
 			"database": config.Env("DB_DATABASE", "gorbac"),
 			"username": config.Env("DB_USERNAME", "root"),
-			"password": config.Env("DB_PASSWORD", "root"),
-			"prefix":   config.Env("DB_PREFIX", "root"),
+			"password": config.Env("DB_PASSWORD", "123456_master"),
+			"prefix":   config.Env("DB_PREFIX", "go_"),
 			"charset":  "utf8mb4",
 			// 连接池配置
 			"max_idle_connections": config.Env("DB_MAX_IDLE_CONNECTIONS", 100),

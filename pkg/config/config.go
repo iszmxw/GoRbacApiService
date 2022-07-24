@@ -26,7 +26,9 @@ func init() {
 
 	// 5. 开始读根目录下的 .env 文件，读不到会报错
 	err := Viper.ReadInConfig()
-	logger.LogError(err)
+	if err != nil {
+		logger.Error(err)
+	}
 
 	// 6. 设置环境变量前缀，用以区分 Go 的系统环境变量
 	Viper.SetEnvPrefix("appenv")
@@ -62,6 +64,11 @@ func Get(path string, defaultValue ...interface{}) interface{} {
 // GetString 获取 String 类型的配置信息
 func GetString(path string, defaultValue ...interface{}) string {
 	return cast.ToString(Get(path, defaultValue...))
+}
+
+// GetStringSlice 获取 String 类型的配置信息
+func GetStringSlice(path string, defaultValue ...interface{}) []string {
+	return cast.ToStringSlice(Get(path, defaultValue...))
 }
 
 // GetInt 获取 Int 类型的配置信息

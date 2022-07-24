@@ -15,13 +15,13 @@ type ToolsController struct {
 func (h *ToolsController) UploadsHandler(c *gin.Context) {
 	// 单文件
 	file, _ := c.FormFile("file")
-	logger.LogInfo(file.Filename)
+	logger.Info(file.Filename)
 
 	dst := fmt.Sprint(`D:\tmp\`+file.Filename)
 	// 上传文件到指定的路径
 	err := c.SaveUploadedFile(file, dst)
 	if err != nil {
-		logger.LogInfo(err)
+		logger.Info(err)
 		return 
 	}
 

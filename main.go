@@ -5,11 +5,14 @@ import (
 	"gorbac/bootstrap"
 	"gorbac/config"
 	conf "gorbac/pkg/config"
+	"gorbac/pkg/utils/logger"
 )
 
 func init() {
 	// 初始化配置信息
 	config.Initialize()
+	// 定义日志目录
+	logger.Init("GoRbacApiService")
 }
 
 func main() {

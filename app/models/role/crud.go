@@ -2,6 +2,7 @@ package role
 
 import (
 	"gorbac/app/models"
+	"gorbac/app/response"
 	"gorbac/pkg/mysql"
 	"gorbac/pkg/utils/logger"
 	"strconv"
@@ -41,7 +42,7 @@ func (m *Role) GetValue(Id uint64) (interface{}, error) {
 
 // GetPaginate 获取分页数据，返回错误
 func (m *Role) GetPaginate(accountId uint64, orderBy interface{}, lists *models.PageList) {
-	var result []JsonRole
+	var result []response.JsonRole
 	// 获取表名
 	tableName := m.TableName()
 	table := mysql.DB.Table(models.Prefix(tableName))
@@ -53,7 +54,7 @@ func (m *Role) GetPaginate(accountId uint64, orderBy interface{}, lists *models.
 	table = table.Limit(int(lists.PageSize))
 	if err := table.Scan(&result).Error; err != nil {
 		// 记录错误
-		logger.LogError(err)
+		logger.Error(err)
 	} else {
 		lists.Data = result
 	}

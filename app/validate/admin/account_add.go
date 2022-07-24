@@ -14,7 +14,7 @@ func ValidateAddAccount(account *account.Account) string {
 		"username": []string{"required", "between:5,20"},
 		"password": []string{"required", "min:6"},
 	}
-	logger.LogInfo(account)
+	logger.Info(account)
 
 	// 2. 定制错误消息
 	messages := govalidator.MapData{

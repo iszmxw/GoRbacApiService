@@ -77,12 +77,12 @@ func (h *UserController) UserAddHandler(c *gin.Context) {
 	// todo 数据验证
 
 	if err := c.Bind(reqData); err != nil {
-		logger.LogInfo(reqData)
+		logger.Info(reqData)
 		utils.SuccessErr(c, 500, "参数格式有误")
 		return
 	}
 	if err := account.Create(reqData); err != nil {
-		logger.LogInfo(reqData)
+		logger.Info(reqData)
 		utils.SuccessErr(c, 500, "创建失败")
 		return
 	}
@@ -94,7 +94,7 @@ func (h *UserController) UserDelHandler(c *gin.Context) {
 	reqData := make(map[string]interface{})
 	// todo 数据验证
 	if err := c.Bind(&reqData); err != nil {
-		logger.LogInfo(reqData)
+		logger.Info(reqData)
 		utils.SuccessErr(c, 500, "参数格式有误")
 		return
 	}

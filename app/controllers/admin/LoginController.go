@@ -16,7 +16,7 @@ type LoginController struct {
 
 // LoginHandler 登录
 func (h *LoginController) LoginHandler(c *gin.Context) {
-	logger.LogInfo("LoginController.LoginHandler")
+	logger.Info("LoginController.LoginHandler")
 	// 初始化数据模型结构体
 	params := new(account.Account)
 	// 绑定接收的 json 数据到结构体中
@@ -66,6 +66,6 @@ func (h *LoginController) LoginHandler(c *gin.Context) {
 
 // LogoutHandler 退出
 func (h *LoginController) LogoutHandler(c *gin.Context) {
-	logger.LogInfo("LoginController.LogoutHandler")
+	logger.Info("LoginController.LogoutHandler")
 	c.JSON(200, gin.H{"code": 20000, "msg": "退出成功"})
 }
