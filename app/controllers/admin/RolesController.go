@@ -3,12 +3,11 @@ package admin
 import (
 	"github.com/gin-gonic/gin"
 	"gorbac/app/models"
-	"gorbac/app/models/account"
 	"gorbac/app/models/role"
 	"gorbac/app/models/routes"
 	"gorbac/app/response"
-	"gorbac/pkg/utils"
-	"gorbac/pkg/utils/logger"
+	"gorbac/pkg/echo"
+	"gorbac/pkg/logger"
 )
 
 type RolesController struct {
@@ -47,8 +46,8 @@ func (h *RolesController) ListHandler(c *gin.Context) {
 		PageSize:    int64(params.Limit),
 	}
 	// 模型获取分页数据
-	Model.GetPaginate(auth.(account.Account).Id, params.OrderBy, &pageList)
-	utils.Rjson(c, pageList, "查询成功！")
+	Model.GetPaginate(auth.(response.Account).Id, params.OrderBy, &pageList)
+	echo.Success(c, pageList, "查询成功！")
 }
 
 // DetailHandler 角色详情
@@ -69,7 +68,7 @@ func (h *RolesController) DetailHandler(c *gin.Context) {
 	)
 	// 绑定接收的 json 数据到结构体中
 	_ = c.ShouldBindJSON(&params)
-	if auth.(account.Account).Id == 1 {
+	if auth.(response.Account).Id == 1 {
 		disabled = false
 	} else {
 		disabled = true
@@ -78,7 +77,7 @@ func (h *RolesController) DetailHandler(c *gin.Context) {
 	AllRouteList, _ = Routes.GetRouteList()
 	result.DefaultChecked, _ = Role.GetValue(uint64(params.Id))
 	result.AllRouteList = routes.GetRoleTree(AllRouteList, 0, disabled)
-	utils.Rjson(c, result, "查询成功！")
+	echo.Success(c, result, "查询成功！")
 
 }
 

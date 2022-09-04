@@ -3,11 +3,11 @@ package admin
 import (
 	"github.com/gin-gonic/gin"
 	"gorbac/app/models"
-	"gorbac/app/models/account"
 	"gorbac/app/models/login_log"
 	"gorbac/app/models/operation_log"
-	"gorbac/pkg/utils"
-	"gorbac/pkg/utils/logger"
+	"gorbac/app/response"
+	"gorbac/pkg/echo"
+	"gorbac/pkg/logger"
 )
 
 type SystemsController struct {
@@ -48,8 +48,8 @@ func (h *SystemsController) LoginLogHandler(c *gin.Context) {
 	}
 
 	// 模型获取分页数据
-	loginLogModel.GetPaginate(auth.(account.Account).Id, params.OrderBy, &pageList)
-	utils.Rjson(c, pageList, "查询成功！")
+	loginLogModel.GetPaginate(auth.(response.Account).Id, params.OrderBy, &pageList)
+	echo.Success(c, pageList, "查询成功！")
 }
 
 // StatisticsHandler 首页统计
@@ -83,8 +83,8 @@ func (h *SystemsController) OperationLogHandler(c *gin.Context) {
 		PageSize:    int64(params.Limit),
 	}
 	// 模型获取分页数据
-	operationLogModel.GetPaginate(auth.(account.Account).Id, params.OrderBy, &pageList)
-	utils.Rjson(c, pageList, "查询成功！")
+	operationLogModel.GetPaginate(auth.(response.Account).Id, params.OrderBy, &pageList)
+	echo.Success(c, pageList, "查询成功！")
 }
 
 // ResetPasswordHandler 修改密码

@@ -5,8 +5,9 @@ import (
 	"github.com/gin-gonic/gin"
 	"gorbac/app/models"
 	"gorbac/app/models/account"
-	"gorbac/pkg/utils"
-	"gorbac/pkg/utils/logger"
+	"gorbac/app/response"
+	"gorbac/pkg/echo"
+	"gorbac/pkg/logger"
 )
 
 type UserController struct {
@@ -16,16 +17,12 @@ type UserController struct {
 // UserInfoHandler 获取用户信息
 func (h *UserController) UserInfoHandler(c *gin.Context) {
 	auth, _ := c.Get("auth")
-	c.JSON(200, gin.H{
-		"msg":  "登录成功",
-		"code": 20000,
-		"data": gin.H{
-			"roles":        fmt.Sprintf("[%s]", "admin"),
-			"name":         auth.(account.Account).Username,
-			"introduction": auth.(account.Account).Username,
-			"avatar":       "https://blog.54zm.com/style/web/iszmxw_simple_pro/static/images/head.jpg",
-		},
-	})
+	echo.Success(c, gin.H{
+		"roles":        fmt.Sprintf("[%s]", "admin"),
+		"name":         auth.(response.Account).Username,
+		"introduction": auth.(response.Account).Username,
+		"avatar":       "https://blog.54zm.com/style/web/iszmxw_simple_pro/static/images/head.jpg",
+	}, "登录成功")
 }
 
 // UserListHandler 获取用户列表
@@ -64,10 +61,10 @@ func (h *UserController) UserListHandler(c *gin.Context) {
 		CurrentPage: int64(params.Page),
 		PageSize:    int64(params.Limit),
 	}
-	if auth.(account.Account).Id == 1 {
+	if auth.(response.Account).Id == 1 {
 		// 模型获取分页数据
-		accountModel.GetPaginate(auth.(account.Account).Id, params.OrderBy, &pageList)
-		utils.Rjson(c, pageList, "查询成功！")
+		accountModel.GetPaginate(auth.(response.Account).Id, params.OrderBy, &pageList)
+		echo.Success(c, pageList, "查询成功！")
 	}
 }
 
@@ -78,15 +75,15 @@ func (h *UserController) UserAddHandler(c *gin.Context) {
 
 	if err := c.Bind(reqData); err != nil {
 		logger.Info(reqData)
-		utils.SuccessErr(c, 500, "参数格式有误")
+		echo.Error(c, "FAIL", "参数格式有误")
 		return
 	}
 	if err := account.Create(reqData); err != nil {
 		logger.Info(reqData)
-		utils.SuccessErr(c, 500, "创建失败")
+		echo.Error(c, "FAIL", "创建失败")
 		return
 	}
-	utils.Rjson(c, reqData, "ok")
+	echo.Success(c, reqData, "ok")
 }
 
 // UserDelHandler 删除用户
@@ -95,17 +92,18 @@ func (h *UserController) UserDelHandler(c *gin.Context) {
 	// todo 数据验证
 	if err := c.Bind(&reqData); err != nil {
 		logger.Info(reqData)
-		utils.SuccessErr(c, 500, "参数格式有误")
+		echo.Error(c, "FAIL", "参数格式有误")
 		return
 	}
 	if len(reqData["id"].(string)) < 0 {
-		utils.SuccessErr(c, 500, "请确认要删除的账号id")
+		echo.Error(c, "FAIL", "请确认要删除的账号id")
+		return
 	}
 	model := account.Account{}
 	err := model.Delete(reqData)
 	if err != nil {
-		utils.Rjson(c, reqData["id"], "删除失败")
+		echo.Error(c, "FAIL", "删除失败")
 		return
 	}
-	utils.Rjson(c, reqData["id"], "ok")
+	echo.Success(c, reqData["id"], "ok")
 }

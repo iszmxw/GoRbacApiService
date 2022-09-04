@@ -3,8 +3,8 @@ package role
 import (
 	"gorbac/app/models"
 	"gorbac/app/response"
+	"gorbac/pkg/logger"
 	"gorbac/pkg/mysql"
-	"gorbac/pkg/utils/logger"
 	"strconv"
 	"strings"
 )

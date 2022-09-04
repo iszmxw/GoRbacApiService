@@ -3,7 +3,7 @@ package admin
 import (
 	"github.com/thedevsaddam/govalidator"
 	"gorbac/app/models/account"
-	"gorbac/pkg/utils/logger"
+	logger "gorbac/pkg/logger"
 )
 
 // ValidateAddAccount 验证表单，开始验证，并返回一条错误消息

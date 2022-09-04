@@ -3,7 +3,7 @@ package admin
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
-	"gorbac/pkg/utils/logger"
+	logger "gorbac/pkg/logger"
 	"net/http"
 )
 

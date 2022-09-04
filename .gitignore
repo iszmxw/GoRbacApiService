@@ -2,3 +2,6 @@
 tmp
 .env
 *.log
+test
+binary
+logs

@@ -3,8 +3,8 @@ package operation_log
 import (
 	"gorbac/app/models"
 	"gorbac/app/response"
+	"gorbac/pkg/logger"
 	"gorbac/pkg/mysql"
-	"gorbac/pkg/utils/logger"
 )
 
 // Create 创建登录日志，通过 category.ID 来判断是否创建成功

@@ -3,13 +3,12 @@ package mysql
 import (
 	"fmt"
 	"gorbac/pkg/config"
+	MysqlLog "gorbac/pkg/logger"
+	"gorbac/pkg/logger/zapgorm2"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
-	"gorm.io/gorm/logger"
 	"gorm.io/gorm/schema"
 	"log"
-	"os"
-	"time"
 )
 
 // DB gorm.DB 对象
@@ -35,22 +34,16 @@ func ConnectDB() *gorm.DB {
 		DSN: dsn,
 	})
 
-	newLogger := logger.New(
-		log.New(os.Stdout, "\r\n", log.LstdFlags), // io writer
-		logger.Config{
-			SlowThreshold: 500 * time.Millisecond, // 慢 SQL 阈值 500ms （如打印所有sql设置1ms）
-			LogLevel:      logger.Warn,            // Log level 读取不到数据也会显示
-			Colorful:      false,                  // 禁用彩色打印
-		},
-	)
-
+	// 追踪mysql日志
+	logger := zapgorm2.New(MysqlLog.Logger)
+	logger.SetAsDefault()
 	// 准备数据库连接池
 	DB, err = gorm.Open(gormConfig, &gorm.Config{
 		NamingStrategy: schema.NamingStrategy{
 			TablePrefix:   prefix, // 表名前缀，`User` 的表名应该是 `go_users`
 			SingularTable: true,   // 使用单数表名，启用该选项，此时，`User` 的表名应该是 `go_user`
 		},
-		Logger: newLogger,
+		Logger: logger,
 	})
 	if err != nil {
 		log.Fatal(err)

@@ -3,11 +3,11 @@ package admin
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
-	"gorbac/app/models/account"
 	"gorbac/app/models/routes"
+	"gorbac/app/response"
 	"gorbac/app/validate/admin"
-	"gorbac/pkg/utils"
-	"gorbac/pkg/utils/logger"
+	"gorbac/pkg/echo"
+	"gorbac/pkg/logger"
 )
 
 type MenusController struct {
@@ -26,15 +26,16 @@ func (h *MenusController) CreatedHandler(c *gin.Context) {
 	// 验证器验证
 	msg := admin.ValidateMenuCreate(params)
 	if len(msg) > 0 {
-		utils.SuccessErr(c, 50000, msg)
+		echo.Error(c, "FAIL", msg)
 		return
 	}
-	params.CreateBy = int(auth.(account.Account).Id)
+	params.CreateBy = int(auth.(response.Account).Id)
 	err := new(routes.Routes).Create(&params)
 	if err != nil {
-		utils.SuccessErr(c, 50000, err.Error())
+		echo.Error(c, "FAIL", err.Error())
+		return
 	}
-	utils.Rjson(c, "", "创建成功！")
+	echo.Success(c, nil, "创建成功！")
 
 }
 
@@ -47,9 +48,10 @@ func (h *MenusController) DeletedHandler(c *gin.Context) {
 	_ = c.BindJSON(&params)
 	err := new(routes.Routes).Delete(params)
 	if err != nil {
-		utils.SuccessErr(c, 50000, err.Error())
+		echo.Error(c, "FAIL", err.Error())
+		return
 	}
-	utils.Rjson(c, "", "删除成功！")
+	echo.Success(c, nil, "删除成功！")
 }
 
 // DetailHandler 路由详情
@@ -62,7 +64,7 @@ func (h *MenusController) DetailHandler(c *gin.Context) {
 	_ = c.ShouldBindJSON(&Route)
 	// 模型获取数据
 	_ = Route.GetDetail(map[string]interface{}{"id": Route.Id}, &Route)
-	utils.Rjson(c, Route, "查询成功！")
+	echo.Success(c, Route, "查询成功！")
 }
 
 // EditHandler 编辑菜单路由
@@ -78,9 +80,10 @@ func (h *MenusController) EditHandler(c *gin.Context) {
 	// TODO 添加数据检验，后面在添加
 	err := Route.Updates(map[string]interface{}{"id": fmt.Sprintf("%+v", data["id"])}, data)
 	if err != nil {
-		utils.SuccessErr(c, 5000, "操作失败！"+err.Error())
+		echo.Error(c, "FAIL", err.Error())
+		return
 	}
-	utils.Rjson(c, "", "操作成功！")
+	echo.Success(c, nil, "操作成功！")
 }
 
 // ListHandler 菜单列表
@@ -89,7 +92,7 @@ func (h *MenusController) ListHandler(c *gin.Context) {
 	// 模型获取分页数据
 	result, _ := new(routes.Routes).GetMenuList(map[string]interface{}{}, "sort asc")
 	listTree := routes.GetMenuTree(result, 0)
-	utils.Rjson(c, listTree, "查询成功！")
+	echo.Success(c, listTree, "查询成功！")
 }
 
 // AsyncRoutesHandler 登录时获取菜单路由
@@ -98,5 +101,5 @@ func (h *MenusController) AsyncRoutesHandler(c *gin.Context) {
 	// 模型获取分页数据
 	result, _ := new(routes.Routes).GetMenuList(map[string]interface{}{"type": "page"}, "sort asc")
 	listTree := routes.GetMenuTree(result, 0)
-	utils.Rjson(c, listTree, "查询成功！")
+	echo.Success(c, listTree, "查询成功！")
 }

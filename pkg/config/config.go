@@ -3,7 +3,7 @@ package config
 import (
 	"github.com/spf13/cast"
 	"github.com/spf13/viper"
-	"gorbac/pkg/utils/logger"
+	logger "gorbac/pkg/logger"
 )
 
 // Viper Viper 库实例

@@ -44,7 +44,7 @@ func Init(Service string) {
 			zapcore.AddSync(&lumberjack.Logger{
 				Filename:   filename, // 日志文件存放目录
 				MaxSize:    5,        // 文件大小限制,单位MB
-				MaxBackups: 100,       // 最大保留日志文件数量
+				MaxBackups: 100,      // 最大保留日志文件数量
 				MaxAge:     30,       // 日志文件保留天数
 				Compress:   false,    // 是否压缩处理
 			}),

@@ -6,7 +6,7 @@ import (
 	"github.com/spf13/cast"
 	"go.uber.org/zap"
 	"gorbac/pkg/config"
-	"gorbac/pkg/utils/logger"
+	"gorbac/pkg/logger"
 	"gorm.io/gorm"
 	gormlogger "gorm.io/gorm/logger"
 	"time"
@@ -23,8 +23,8 @@ type Logger struct {
 func New(zapLogger *zap.Logger) Logger {
 	return Logger{
 		ZapLogger:                 zapLogger,
-		LogLevel:                  gormlogger.Warn,
-		SlowThreshold:             100 * time.Millisecond,
+		LogLevel:                  gormlogger.Warn, // Log level 读取不到数据也会显示
+		SlowThreshold:             5 * time.Second, // 慢 SQL 阈值 500ms （如打印所有sql设置1ms）
 		SkipCallerLookup:          false,
 		IgnoreRecordNotFoundError: false,
 	}

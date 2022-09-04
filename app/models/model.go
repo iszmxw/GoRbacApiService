@@ -2,8 +2,7 @@ package models
 
 import (
 	"gorbac/pkg/config"
-	"gorbac/pkg/utils/times"
-	"gorbac/pkg/utils/types"
+	"gorbac/pkg/utils/helpers"
 	"gorm.io/gorm"
 	"strings"
 )
@@ -15,15 +14,15 @@ type BaseModel struct {
 
 // BaseModelLast 模型基类
 type BaseModelLast struct {
-	CreatedAt times.MyTime `gorm:"column:created_at;index;comment:创建时间" json:"created_at"`
-	UpdatedAt times.MyTime `gorm:"column:updated_at;comment:更新时间" json:"updated_at"`
+	CreatedAt helpers.TimeNormal `gorm:"column:created_at;index;comment:创建时间" json:"created_at"`
+	UpdatedAt helpers.TimeNormal `gorm:"column:updated_at;comment:更新时间" json:"updated_at"`
 	// 支持 gorm 软删除
 	DeletedAt gorm.DeletedAt `gorm:"column:deleted_at;index;comment:删除时间" json:"deleted_at"`
 }
 
 // GetStringID 获取 ID 的字符串格式
 func (m *BaseModel) GetStringID() string {
-	return types.Uint64ToString(m.Id)
+	return helpers.Uint64ToString(m.Id)
 }
 
 // PageList 分页返回数

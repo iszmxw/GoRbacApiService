@@ -1,6 +1,7 @@
 package jwt
 
 import (
+	"errors"
 	"fmt"
 	"github.com/dgrijalva/jwt-go"
 	"gorbac/app/models/account"
@@ -10,6 +11,7 @@ import (
 )
 
 // 定义授权保存信息
+
 type CustomClaims struct {
 	Id       uint64
 	Username string
@@ -20,6 +22,7 @@ type CustomClaims struct {
 var secretary = config.GetString("jwt.secretary")
 
 // 创建 GetToken
+
 func GetToken(account account.Account) (map[string]interface{}, error) {
 	// 7200秒过期
 	maxAge, _ := strconv.Atoi(config.GetString("jwt.export"))
@@ -46,9 +49,10 @@ func GetToken(account account.Account) (map[string]interface{}, error) {
 }
 
 // 验证 Token
-func AuthToken(tokenString string) (uint64, interface{}) {
+
+func AuthToken(tokenString string) (uint64, error) {
 	if tokenString == "" {
-		return 0, "认证失败"
+		return 0, errors.New("认证失败")
 	}
 	//kv := strings.Split(tokenString, " ")
 	//if kv[0] != "Bearer" {
@@ -65,6 +69,6 @@ func AuthToken(tokenString string) (uint64, interface{}) {
 		id := uint64(claims["Id"].(float64))
 		return id, nil
 	} else {
-		return 0, "认证已过期"
+		return 0, errors.New("认证已过期")
 	}
 }
